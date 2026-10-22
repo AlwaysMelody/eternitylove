@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ETERNITY LOVE · 페어틀 제작기</title>
+<style>
+:root{--pink:#f5c5c7;--red:#ef3828;--ink:#111;--gray:#e7e7e7}
+*{box-sizing:border-box}body{margin:0;background:#f4f4f4;color:var(--ink);font-family:Arial,"Noto Sans KR",sans-serif}
+header{padding:22px 16px;text-align:center;background:#fff;border-bottom:1px solid #ddd}
+header h1{margin:0 0 6px;font-size:25px}header p{margin:0;color:#666;font-size:13px}
+.app{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,720px);gap:22px;max-width:1160px;margin:22px auto;padding:0 16px;align-items:start}
+.panel{background:white;border-radius:12px;padding:18px;box-shadow:0 2px 12px #0000000c}
+.panel h2{font-size:17px;margin:0 0 14px}.field{display:grid;gap:5px;margin-bottom:12px}.field label{font-size:12px;font-weight:700;color:#444}
+input,textarea,select{width:100%;font:inherit;font-size:13px;padding:10px;border:1px solid #ddd;border-radius:7px;background:#fff}
+textarea{resize:vertical;min-height:66px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.colorrow{display:flex;align-items:center;gap:12px;margin:8px 0 14px;font-size:13px}.colorrow input{width:44px;height:34px;padding:2px}
+button{border:0;border-radius:8px;padding:12px 14px;font-weight:700;cursor:pointer}.primary{background:var(--red);color:white;width:100%;margin-top:5px}.secondary{background:#eee;color:#222;width:100%;margin-top:8px}
+.preview-wrap{min-width:0}.preview-label{font-size:13px;color:#666;margin:0 0 8px}
+#poster{width:100%;aspect-ratio:1024/1458;background:#fff;position:relative;overflow:hidden;box-shadow:0 5px 22px #0002;font-family:Arial,"Noto Sans KR",sans-serif}
+.topbar{height:4.6%;background:var(--pink);display:flex;align-items:center;padding:0 0 0 0;overflow:hidden}
+.poster-title{font-size:clamp(19px,4.4vw,44px);font-weight:900;color:white;white-space:nowrap;letter-spacing:-1.5px}
+.content{position:absolute;inset:6% 4.5% 3.5%}
+.card{position:absolute;width:39%;height:43%;object-fit:cover;background:#eee;box-shadow:5px 8px 10px #0007;border:1px solid #eee}
+.card.one{left:9%;top:3%}.card.two{right:10%;bottom:3%}
+.card-placeholder{position:absolute;width:39%;height:43%;display:flex;align-items:center;justify-content:center;background:#eee;color:#999;font-size:12px;text-align:center;padding:10px}
+.card-placeholder.one{left:9%;top:3%}.card-placeholder.two{right:10%;bottom:3%}
+.info{position:absolute;width:46%;font-size:clamp(6px,1.15vw,11px);line-height:1.3;overflow-wrap:anywhere;z-index:2}
+.info.top{left:1%;top:4%}.info.bottom{right:1%;bottom:3%}
+.name{font-size:clamp(15px,2.4vw,24px);font-weight:900;font-style:italic;border-bottom:2px solid var(--pink);padding-bottom:3px;margin-bottom:5px}
+.alias{font-size:.55em;font-weight:400;color:#777}
+.tagline{background:linear-gradient(90deg,var(--pink),#fff);border-radius:7px;padding:3px 7px;margin-bottom:9px;font-size:.8em}
+.profile{display:grid;grid-template-columns:54px 1fr;gap:4px 7px;align-items:center;margin-bottom:9px}
+.label{background:var(--pink);color:white;text-align:center;font-weight:700;border-radius:5px;padding:4px 2px}
+.ability{text-align:right;font-size:clamp(13px,2vw,21px);font-style:italic;font-weight:900;margin:3px 0}
+.abilitybox{background:var(--gray);border-radius:5px;padding:7px;margin-bottom:8px}
+.abilitybox strong{font-size:1.05em}.abilitybox span{font-size:.85em}
+.desc{white-space:pre-line;margin:0;font-size:.88em;line-height:1.35;overflow-wrap:anywhere}
+.info.bottom .desc{font-size:.82em;line-height:1.3}
+.info.bottom .abilitybox{padding:6px;margin-bottom:6px}
+.swatches{position:absolute;top:2%;right:1%;display:flex;gap:5px;width:44%;height:8%;z-index:1}
+.swatch{flex:1;min-width:0;background:var(--pink);overflow:hidden}.swatch img{width:100%;height:100%;object-fit:cover}
+.swatch:first-child{background:var(--pink)}
+.side-tags{position:absolute;left:0;top:42%;display:grid;gap:6px;width:29%;z-index:3}
+.side-tags span{background:var(--pink);color:white;font-weight:800;padding:6px 7px;font-size:clamp(9px,1.5vw,14px);box-shadow:2px 3px 5px #0001}
+.side-tags span:nth-child(2){margin-left:-8%;width:95%}.side-tags span:nth-child(3){margin-left:-16%;width:95%}
+.side-tags.right{left:auto;right:0;top:70%;width:22%;text-align:right;z-index:3}
+.side-tags.right span{background:var(--red)}.side-tags.right span:nth-child(2){margin-left:0;width:100%}.side-tags.right span:nth-child(3){margin-left:0;width:100%}
+.bottom-images{position:absolute;left:0;bottom:0;width:45%;height:9%;display:flex;gap:5px;z-index:1}
+.bottom-images span{flex:1;background:var(--red);overflow:hidden}.bottom-images img{width:100%;height:100%;object-fit:cover}
+.footer{position:absolute;bottom:0;left:0;right:0;height:1.6%;background:var(--pink);color:white;font-size:clamp(6px,.9vw,9px);padding-left:6px;display:flex;align-items:center}
+@media(max-width:800px){.app{grid-template-columns:1fr;max-width:650px}.preview-wrap{grid-row:1}.panel{grid-row:2}.poster-title{font-size:clamp(20px,6vw,42px)}.info{font-size:clamp(7px,1.65vw,11px)}}
+</style>
+</head>
+<body>
+<header><h1>ETERNITY LOVE · 페어틀 제작기</h1><p>고정된 레이아웃에 사진과 글씨만 바꿔 넣는 템플릿</p></header>
+<main class="app">
+<section class="panel">
+<h2>1. 기본 설정</h2><p style="font-size:12px;line-height:1.5;color:#666;margin:-5px 0 14px">A 버전: 참고 이미지처럼 배치가 고정돼 있어요. 사진, 프로필 문구, 장식 이미지, 포인트 색상만 변경할 수 있습니다. 사진은 프레임에 맞게 자동으로 잘립니다.</p>
+<div class="field"><label>상단 제목</label><input data-bind="title" value="ETERNITY LOVE"></div>
+<div class="row">
+<div class="field"><label>포인트 컬러</label><input type="color" id="pink" value="#f5c5c7"></div>
+<div class="field"><label>강조 컬러</label><input type="color" id="red" value="#ef3828"></div>
+</div>
+<h2>2. 왼쪽 캐릭터</h2>
+<div class="field"><label>캐릭터 이미지</label><input type="file" accept="image/*" id="image1"></div>
+<div class="field"><label>이름 / 영문명</label><input data-bind="name1" value="이카로스 / ICARUS"></div>
+<div class="field"><label>한 줄 소개</label><input data-bind="tagline1" value="가장 자유로운 얼굴을 한, 하늘의 폭군"></div>
+<div class="row"><div class="field"><label>본명</label><input data-bind="real1" value="유시현"></div><div class="field"><label>나이</label><input data-bind="age1" value="32세"></div></div>
+<div class="field"><label>속성</label><input data-bind="type1" value="Aero, SS-Sentinel"></div>
+<div class="field"><label>소속</label><input data-bind="group1" value="ARCH-PRIMA"></div>
+<div class="field"><label>능력 이름</label><input data-bind="ability1" value="대기의 권능"></div>
+<div class="field"><label>능력 영문명</label><input data-bind="abilityEn1" value="Atmospheric Authority"></div>
+<div class="field"><label>능력 설명</label><textarea data-bind="short1">그는 단순히 바람을 다루는 것이 아닌, 하늘 그 자체를 지배한다.</textarea></div>
+<div class="field"><label>추가 프로필 설명</label><textarea data-bind="desc1">가이딩에 대해 지속적으로 회피 및 거부 반응을 보여온 기록이 있음.\n파트너 없이 장기간 활동했으며, 안정 수치 유지가 필요할 시 '하모니 부서'를 통한 최소한의 임시 접촉 가이딩이나 약물 등에만 의존해왔음.\n\n특히 가이딩 직후, 대상은 파트너를 즉시 밀어내고 장시간 외부와의 접촉을 차단하는 등 극도로 예민한 반응을 보이는 경향이 있음.</textarea></div>
+<div class="row"><div class="field"><label>태그 1</label><input data-bind="tagA1" value="감정 결여"></div><div class="field"><label>태그 2</label><input data-bind="tagB1" value="오만"></div></div>
+<div class="field"><label>태그 3</label><input data-bind="tagC1" value="영원"></div>
+<hr style="border:0;border-top:1px solid #eee;margin:20px 0">
+<h2>3. 오른쪽 캐릭터</h2>
+<div class="field"><label>캐릭터 이미지</label><input type="file" accept="image/*" id="image2"></div>
+<div class="field"><label>이름 / 영문명</label><input data-bind="name2" value="연옥 / YEONOK"></div>
+<div class="field"><label>한 줄 소개</label><input data-bind="tagline2" value="잿더미 위에서 피어난 장미"></div>
+<div class="row"><div class="field"><label>본명</label><input data-bind="real2" value="주우연"></div><div class="field"><label>나이</label><input data-bind="age2" value="20세"></div></div>
+<div class="field"><label>속성</label><input data-bind="type2" value="Pyre, S-Guide"></div>
+<div class="field"><label>소속</label><input data-bind="group2" value="Harmony.SUPPORT"></div>
+<div class="field"><label>능력 이름</label><input data-bind="ability2" value="연옥의 장미"></div>
+<div class="field"><label>능력 영문명</label><input data-bind="abilityEn2" value="Purgatorium's ROSE"></div>
+<div class="field"><label>능력 설명</label><textarea data-bind="short2">그녀의 불꽃은 고통스럽지만 잊지 못할 경험을 남긴다.</textarea></div>
+<div class="field"><label>추가 프로필 설명</label><textarea data-bind="desc2">새침한 말투와 명랑한 태도로 현장에서 종종 센티넬과 마찰을 빚음.\n그러나 폭주 센티넬로 인해 가족을 잃은 트라우마 탓에 가이딩 수치에 예민하게 반응하는 경향을 보임.\n\n현장에서 가장 헌신적인 가이딩을 진행하며, 폭주 위험 센티넬에게 무모하게 접촉을 시도하는 경우가 있음.</textarea></div>
+<div class="row"><div class="field"><label>태그 1</label><input data-bind="tagA2" value="어른아이"></div><div class="field"><label>태그 2</label><input data-bind="tagB2" value="자선"></div></div>
+<div class="field"><label>태그 3</label><input data-bind="tagC2" value="구원"></div>
+<h2>4. 장식 이미지 (선택)</h2>
+<div class="field"><label>상단 장식 이미지 1</label><input type="file" accept="image/*" id="deco1"></div>
+<div class="field"><label>상단 장식 이미지 2</label><input type="file" accept="image/*" id="deco2"></div>
+<div class="field"><label>하단 장식 이미지</label><input type="file" accept="image/*" id="deco3"></div>
+<button class="primary" id="download">완성 이미지 PNG 저장</button>
+<button class="secondary" id="reset">예시 내용으로 초기화</button>
+</section>
+<section class="preview-wrap">
+<p class="preview-label">미리보기 — 레이아웃은 고정되어 있고, 사진·문구·색상만 바뀝니다.</p>
+<div id="poster">
+<div class="topbar"><div class="poster-title" id="v-title">ETERNITY LOVE</div></div>
+<div class="content">
+<div class="swatches"><div class="swatch"></div><div class="swatch"><img id="v-deco1" alt=""></div><div class="swatch"><img id="v-deco2" alt=""></div></div>
+<div class="card-placeholder one" id="ph1">왼쪽 캐릭터 이미지</div><img class="card one" id="v-image1" alt="" hidden>
+<div class="card-placeholder two" id="ph2">오른쪽 캐릭터 이미지</div><img class="card two" id="v-image2" alt="" hidden>
+<div class="info top">
+<div class="name"><span id="v-name1">이카로스 / ICARUS</span></div><div class="tagline" id="v-tagline1"></div>
+<div class="profile"><span class="label">본 명</span><span id="v-real1"></span><span class="label">나 이</span><span id="v-age1"></span><span class="label">속 성</span><span id="v-type1"></span><span class="label">소 속</span><span id="v-group1"></span></div>
+<div class="ability">ABILITY</div><div class="abilitybox"><strong id="v-ability1"></strong> <span id="v-abilityEn1"></span><br><span id="v-short1"></span></div><p class="desc" id="v-desc1"></p>
+</div>
+<div class="info bottom">
+<div class="name" style="border-color:var(--red)"><span id="v-name2">연옥 / YEONOK</span></div><div class="tagline" style="background:linear-gradient(90deg,var(--red),#fff)" id="v-tagline2"></div>
+<div class="profile"><span class="label" style="background:var(--red)">본 명</span><span id="v-real2"></span><span class="label" style="background:var(--red)">나 이</span><span id="v-age2"></span><span class="label" style="background:var(--red)">속 성</span><span id="v-type2"></span><span class="label" style="background:var(--red)">소 속</span><span id="v-group2"></span></div>
+<div class="ability">ABILITY</div><div class="abilitybox"><strong id="v-ability2"></strong> <span id="v-abilityEn2"></span><br><span id="v-short2"></span></div><p class="desc" id="v-desc2"></p>
+</div>
+<div class="side-tags"><span id="v-tagA1"></span><span id="v-tagB1"></span><span id="v-tagC1"></span></div>
+<div class="side-tags right"><span id="v-tagA2"></span><span id="v-tagB2"></span><span id="v-tagC2"></span></div>
+<div class="bottom-images"><span></span><span><img id="v-deco3" alt=""></span><span></span></div>
+</div><div class="footer">pair template maker</div>
+</div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+const defaults = {};
+document.querySelectorAll('[data-bind]').forEach(el=>{defaults[el.dataset.bind]=el.value;});
+function update(){
+ document.querySelectorAll('[data-bind]').forEach(el=>{const out=document.getElementById('v-'+el.dataset.bind);if(out)out.textContent=el.value.replace(/\\n/g,'\n');});
+ document.documentElement.style.setProperty('--pink',document.getElementById('pink').value);
+ document.documentElement.style.setProperty('--red',document.getElementById('red').value);
+}
+document.querySelectorAll('[data-bind],#pink,#red').forEach(el=>el.addEventListener('input',update));
+function attachImage(inputId, imageId, placeholderId){
+ document.getElementById(inputId).addEventListener('change',e=>{
+  const file=e.target.files&&e.target.files[0];if(!file)return;
+  const reader=new FileReader();reader.onload=()=>{const img=document.getElementById(imageId);img.src=reader.result;img.hidden=false;if(placeholderId)document.getElementById(placeholderId).hidden=true;};reader.readAsDataURL(file);
+ });
+}
+attachImage('image1','v-image1','ph1');attachImage('image2','v-image2','ph2');
+[['deco1','v-deco1'],['deco2','v-deco2'],['deco3','v-deco3']].forEach(([input,img])=>attachImage(input,img,null));
+document.getElementById('download').addEventListener('click',async()=>{
+ const button=document.getElementById('download');button.disabled=true;button.textContent='이미지 만드는 중...';
+ try{const poster=document.getElementById('poster');const canvas=await html2canvas(poster,{scale:2,backgroundColor:'#ffffff',useCORS:true});const a=document.createElement('a');a.download='pair-template.png';a.href=canvas.toDataURL('image/png');a.click();}
+ catch(e){alert('이미지 저장에 실패했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.');}
+ finally{button.disabled=false;button.textContent='완성 이미지 PNG 저장';}
+});
+document.getElementById('reset').addEventListener('click',()=>{
+ document.querySelectorAll('[data-bind]').forEach(el=>el.value=defaults[el.dataset.bind]);
+ ['image1','image2','deco1','deco2','deco3'].forEach(id=>document.getElementById(id).value='');
+ ['v-image1','v-image2','v-deco1','v-deco2','v-deco3'].forEach(id=>{const el=document.getElementById(id);el.src='';if(id==='v-image1'||id==='v-image2')el.hidden=true;});
+ document.getElementById('ph1').hidden=false;document.getElementById('ph2').hidden=false;
+ document.getElementById('pink').value='#f5c5c7';document.getElementById('red').value='#ef3828';update();
+});
+update();
+</script>
+</body>
+</html>
