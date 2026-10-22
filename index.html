@@ -6,39 +6,229 @@
 
     <meta charset="UTF-8">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>페어틀 제작기</title>
-
-    <!-- Paperlogy 폰트 로드 -->
-
-    <link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonnu_2308@1.1/Paperlogy-5Medium.woff2" rel="stylesheet" type="text/css">
-
-    <style>
-
-        * { box-sizing: border-box; font-family: 'Paperlogy', sans-serif; }
-
-        body { background-color: #1a1a1a; color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-
-        .controls { background: #2a2a2a; padding: 15px 25px; border-radius: 12px; margin-bottom: 20px; display: flex; gap: 20px; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); flex-wrap: wrap; justify-content: center; }
-
-        .control-group { display: flex; align-items: center; gap: 8px; }
-
-        .control-group label { font-size: 14px; font-weight: 500; }
-
-        input[type="color"] { border: none; width: 35px; height: 35px; border-radius: 6px; cursor: pointer; background: none; }
-
-        button { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-
-        button:hover { background: #ddd; }
 
 ​
 
-        /* 페어틀 본체 (원본 비율 및 배치 재현) */
+    <!-- 페이퍼로지(Paperlogy) 및 나눔고딕 폰트 로드 -->
 
-        #template-container {
+    <link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonnu_2308@1.1/Paperlogy-5Medium.woff2" rel="stylesheet" type="text/css">
 
-            width: 800px;
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 
-            height: 1131px;
+​
+
+    <style>
+
+        @font-face {
+
+            font-family: 'Paperlogy';
+
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonnu_2308@1.1/Paperlogy-5Medium.woff2') format('woff2');
+
+            font-weight: 500;
+
+            font-style: normal;
+
+        }
+
+​
+
+        :root {
+
+            --accent-color: #000000;
+
+            --main-font: 'Paperlogy', sans-serif;
+
+        }
+
+​
+
+        * {
+
+            box-sizing: border-box;
+
+            font-family: var(--main-font);
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+​
+
+        body {
+
+            background-color: #1e1e1e;
+
+            color: #ffffff;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            padding: 20px;
+
+        }
+
+​
+
+        /* 1 & 2. 상단 조작 컨트롤 바 (색상, 폰트 버튼) */
+
+        .control-panel {
+
+            background: #2b2b2b;
+
+            padding: 12px 24px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            gap: 20px;
+
+            align-items: center;
+
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+        }
+
+​
+
+        .control-group {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+​
+
+        .control-group label {
+
+            font-size: 14px;
+
+            color: #ddd;
+
+            font-weight: bold;
+
+        }
+
+​
+
+        .control-group input[type="color"] {
+
+            border: none;
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 4px;
+
+            cursor: pointer;
+
+            background: none;
+
+        }
+
+​
+
+        .control-group input[type="text"] {
+
+            width: 80px;
+
+            padding: 5px 8px;
+
+            border-radius: 4px;
+
+            border: 1px solid #555;
+
+            background: #111;
+
+            color: #fff;
+
+            font-size: 13px;
+
+            text-align: center;
+
+        }
+
+​
+
+        .control-group select {
+
+            padding: 5px 10px;
+
+            border-radius: 4px;
+
+            border: 1px solid #555;
+
+            background: #111;
+
+            color: #fff;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+        }
+
+​
+
+        .btn-action {
+
+            background: #ffffff;
+
+            color: #000000;
+
+            border: none;
+
+            padding: 7px 14px;
+
+            border-radius: 4px;
+
+            font-weight: bold;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+​
+
+        .btn-action:hover {
+
+            background: #dddddd;
+
+        }
+
+​
+
+        /* 3 & 4. 원본 페어틀 캔버스 규격 (750px * 1050px) */
+
+        #pair-canvas {
+
+            width: 750px;
+
+            height: 1050px;
 
             background-color: #ffffff;
 
@@ -46,55 +236,83 @@
 
             position: relative;
 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+
             overflow: hidden;
 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            flex-shrink: 0;
 
         }
 
 ​
 
-        /* 상단 타이틀 */
+        /* PAIR NAME 헤더 */
 
-        .pair-title {
+        .pair-header {
 
             position: absolute;
 
-            top: 25px;
+            top: 20px;
 
-            left: 40px;
+            left: 25px;
 
-            font-size: 42px;
+            font-size: 46px;
 
-            font-weight: 800;
+            font-weight: 900;
 
-            letter-spacing: 2px;
+            letter-spacing: -1px;
 
-            color: #000;
+            line-height: 1;
 
         }
 
 ​
 
-        /* 캐릭터 큰 이미지 박스 (드래그 및 줌 가능 영역) */
+        /* 메인 캐릭터 대형 박스 */
 
-        .char-box-large {
+        .main-char-box {
 
             position: absolute;
 
-            background-color: #111;
+            background-color: #000000;
 
             overflow: hidden;
 
-            box-shadow: 8px 8px 20px rgba(0,0,0,0.4);
-
-            cursor: grab;
+            cursor: pointer;
 
         }
 
-        .char-box-large:active { cursor: grabbing; }
+​
 
-        .char-box-large img {
+        #char-box-1 {
+
+            top: 75px;
+
+            left: 105px;
+
+            width: 250px;
+
+            height: 440px;
+
+        }
+
+​
+
+        #char-box-2 {
+
+            top: 545px;
+
+            left: 395px;
+
+            width: 250px;
+
+            height: 440px;
+
+        }
+
+​
+
+        .main-char-box img, .sub-box img {
 
             position: absolute;
 
@@ -102,49 +320,71 @@
 
             pointer-events: none;
 
-            max-width: none;
-
         }
 
-        .char-box-large .placeholder-text {
+​
+
+        /* 좌측 세로 바 3개 데코 */
+
+        .bar-group-left {
 
             position: absolute;
 
-            top: 50%; left: 50%;
+            top: 885px;
 
-            transform: translate(-50%, -50%);
+            left: 25px;
 
-            color: #666;
+            display: flex;
 
-            font-size: 14px;
+            flex-direction: column;
 
-            text-align: center;
-
-            pointer-events: none;
+            gap: 10px;
 
         }
 
 ​
 
-        /* 상단 캐릭터 큰 박스 (좌측 상단) */
+        /* 우측 세로 바 3개 데코 */
 
-        #box-char1 { top: 90px; left: 115px; width: 235px; height: 360px; }
-
-        /* 하단 캐릭터 큰 박스 (우측 하단) */
-
-        #box-char2 { top: 485px; left: 450px; width: 235px; height: 360px; }
-
-​
-
-        /* 상단 작은 이미지 3칸 박스 (우측 상단) */
-
-        .top-small-boxes {
+        .bar-group-right {
 
             position: absolute;
 
-            top: 90px;
+            top: 830px;
 
-            left: 518px;
+            left: 645px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+​
+
+        .deco-bar {
+
+            width: 105px;
+
+            height: 42px;
+
+            background-color: var(--accent-color);
+
+        }
+
+​
+
+        /* 서브 3개 네모 박스 (상단) */
+
+        .sub-box-container-top {
+
+            position: absolute;
+
+            top: 65px;
+
+            left: 395px;
 
             display: flex;
 
@@ -152,155 +392,121 @@
 
         }
 
-        .char-box-small {
+​
 
-            width: 70px;
+        /* 서브 3개 네모 박스 (하단) */
 
-            height: 70px;
+        .sub-box-container-bottom {
 
-            background-color: #111;
+            position: absolute;
 
-            overflow: hidden;
+            top: 905px;
+
+            left: 105px;
+
+            display: flex;
+
+            gap: 12px;
+
+        }
+
+​
+
+        .sub-box {
+
+            width: 75px;
+
+            height: 75px;
+
+            background-color: #000000;
 
             position: relative;
+
+            overflow: hidden;
 
             cursor: pointer;
 
         }
 
-        .char-box-small img { position: absolute; pointer-events: none; }
-
 ​
 
-        /* 하단 작은 이미지 3칸 박스 (좌측 하단) */
+        /* 프로필 영역 (상단 우측) */
 
-        .bottom-small-boxes {
+        .profile-area-top {
 
             position: absolute;
 
-            top: 865px;
+            top: 155px;
 
-            left: 45px;
+            left: 395px;
+
+            width: 320px;
+
+        }
+
+​
+
+        /* 프로필 영역 (하단 좌측) */
+
+        .profile-area-bottom {
+
+            position: absolute;
+
+            top: 545px;
+
+            left: 25px;
+
+            width: 320px;
+
+        }
+
+​
+
+        .name-row {
+
+            border-bottom: 2px solid var(--accent-color);
+
+            padding-bottom: 2px;
 
             display: flex;
-
-            gap: 12px;
-
-        }
-
-​
-
-        {/* 비대칭 데코 블록들 */}
-
-        .deco-block-left {
-
-            position: absolute;
-
-            left: 55px;
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 8px;
-
-        }
-
-        .deco-item-left { width: 45px; height: 22px; background: #222; box-shadow: 3px 3px 6px rgba(0,0,0,0.3); }
-
-​
-
-        .deco-block-right {
-
-            position: absolute;
-
-            right: 55px;
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 8px;
-
-        }
-
-        .deco-item-right { width: 45px; height: 22px; background: #222; box-shadow: -3px 3px 6px rgba(0,0,0,0.3); }
-
-​
-
-        #deco-left-1 { top: 310px; }
-
-        #deco-left-2 { top: 340px; }
-
-        #deco-left-3 { top: 370px; }
-
-​
-
-        #deco-right-1 { top: 780px; }
-
-        #deco-right-2 { top: 810px; }
-
-        #deco-right-3 { top: 840px; }
-
-​
-
-        {/* 캐릭터 정보 프로필 섹션 1 (우측 상단) */}
-
-        .profile-section-1 {
-
-            position: absolute;
-
-            top: 180px;
-
-            left: 518px;
-
-            width: 240px;
-
-        }
-
-​
-
-        {/* 캐릭터 정보 프로필 섹션 2 (좌측 하단) */}
-
-        .profile-section-2 {
-
-            position: absolute;
-
-            top: 485px;
-
-            left: 55px;
-
-            width: 240px;
-
-        }
-
-​
-
-        .name-line {
-
-            font-size: 22px;
-
-            font-weight: 700;
-
-            border-bottom: 2px solid #000;
-
-            padding-bottom: 3px;
-
-            display: flex;
-
-            justify-content: space-between;
 
             align-items: baseline;
 
+            gap: 8px;
+
         }
 
-        .name-sub { font-size: 11px; color: #777; font-weight: 400; }
+​
 
-        .catchphrase {
+        .name-main {
 
-            background: #e2e2e2;
+            font-size: 24px;
 
-            padding: 4px 8px;
+            font-weight: 800;
+
+        }
+
+​
+
+        .name-sub {
+
+            font-size: 14px;
+
+            font-style: italic;
+
+            color: #888888;
+
+            font-weight: 500;
+
+        }
+
+​
+
+        .catchphrase-box {
+
+            background: #d8d8d8;
+
+            padding: 3px 8px;
 
             font-size: 11px;
 
@@ -308,11 +514,13 @@
 
             border-radius: 2px;
 
+            color: #111;
+
         }
 
 ​
 
-        .info-grid {
+        .info-list {
 
             margin-top: 8px;
 
@@ -324,113 +532,177 @@
 
         }
 
-        .info-row {
+​
+
+        .info-item {
 
             display: flex;
 
-            font-size: 11px;
-
             align-items: center;
 
-        }
-
-        .info-badge {
-
-            background: #000;
-
-            color: #fff;
-
-            padding: 2px 6px;
-
-            font-size: 10px;
-
-            font-weight: 600;
-
-            margin-right: 6px;
-
-            border-radius: 2px;
-
-            min-width: 38px;
-
-            text-align: center;
+            font-size: 11px;
 
         }
-
-        .info-val { color: #333; }
 
 ​
 
-        .ability-title-area {
+        .info-label {
 
-            margin-top: 12px;
+            background-color: var(--accent-color);
+
+            color: #ffffff;
+
+            padding: 2px 0;
+
+            width: 42px;
+
+            text-align: center;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            margin-right: 8px;
+
+            border-radius: 2px;
+
+            flex-shrink: 0;
+
+        }
+
+​
+
+        .info-value {
+
+            color: #333333;
+
+            font-size: 11px;
+
+            width: 100%;
+
+        }
+
+​
+
+        .ability-section {
+
+            margin-top: 14px;
 
             text-align: right;
 
         }
 
+​
+
         .ability-header {
 
-            font-size: 16px;
+            font-size: 20px;
 
-            font-weight: 800;
+            font-weight: 900;
 
             font-style: italic;
 
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
 
-        }
-
-        .ability-box {
-
-            background: #e9e9e9;
-
-            padding: 6px 10px;
-
-            margin-top: 4px;
-
-        }
-
-        .ability-name { font-size: 12px; font-weight: 700; }
-
-        .ability-desc-short { font-size: 10px; color: #444; margin-top: 2px; }
-
-​
-
-        .ability-long-text {
-
-            font-size: 10px;
-
-            line-height: 1.4;
-
-            color: #222;
-
-            margin-top: 8px;
+            margin-bottom: 4px;
 
         }
 
 ​
 
-        /* 하단 낙장/크레딧 */
+        .ability-name-box {
 
-        .footer-credit {
+            background-color: #e2e2e2;
 
-            position: absolute;
+            padding: 5px 8px;
 
-            bottom: 10px;
+            text-align: left;
 
-            left: 20px;
+        }
+
+​
+
+        .ability-title {
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+​
+
+        .ability-sub {
 
             font-size: 9px;
 
-            color: rgba(255,255,255,0.7);
+            color: #555;
+
+            margin-top: 1px;
 
         }
 
 ​
 
-        /* 숨겨진 파일 업로드 인풋 */
+        .ability-desc {
 
-        input[type="file"] { display: none; }
+            margin-top: 8px;
+
+            font-size: 10px;
+
+            line-height: 1.45;
+
+            color: #222;
+
+            text-align: left;
+
+        }
+
+​
+
+        /* 하단 푸터 크레딧 */
+
+        .footer-text {
+
+            position: absolute;
+
+            bottom: 8px;
+
+            left: 15px;
+
+            font-size: 10px;
+
+            color: #000000;
+
+            font-weight: bold;
+
+        }
+
+​
+
+        /* 텍스트 편집 효과 */
+
+        [contenteditable="true"] {
+
+            outline: none;
+
+        }
+
+        [contenteditable="true"]:hover {
+
+            background-color: rgba(0, 0, 0, 0.05);
+
+        }
+
+​
+
+        /* 숨겨진 파일 선택기 */
+
+        input[type="file"] {
+
+            display: none;
+
+        }
 
     </style>
 
@@ -440,195 +712,225 @@
 
 ​
 
-    <!-- 상단 조작 컨트롤러 -->
+    <!-- 1 & 2. 컨트롤 상단 바 -->
 
-    <div class="controls">
+    <div class="control-panel">
 
         <div class="control-group">
 
-            <label>포인트 색상 선택:</label>
+            <label>포인트 색상:</label>
 
             <input type="color" id="accentColorPicker" value="#000000">
 
+            <input type="text" id="accentHexInput" value="#000000" placeholder="#000000">
+
+            <button class="btn-action" id="applyColorBtn">색상 적용</button>
+
         </div>
 
-        <button id="downloadBtn">이미지(PNG) 저장</button>
+​
+
+        <div class="control-group">
+
+            <label>글꼴 선택:</label>
+
+            <select id="fontSelect">
+
+                <option value="'Paperlogy', sans-serif">Paperlogy (기본)</option>
+
+                <option value="'Nanum Gothic', sans-serif">나눔고딕 (Nanum Gothic)</option>
+
+                <option value="sans-serif">기본 고딕 (Sans-serif)</option>
+
+                <option value="serif">명조체 (Serif)</option>
+
+            </select>
+
+        </div>
+
+​
+
+        <button class="btn-action" id="saveBtn" style="background:#000; color:#fff;">이미지 저장 (PNG)</button>
 
     </div>
 
 ​
 
-    <!-- 페어틀 원본 레이아웃 컨테이너 -->
+    <!-- 3 & 4. 페어틀 원본 캔버스 -->
 
-    <div id="template-container">
+    <div id="pair-canvas">
 
-        <div class="pair-title" contenteditable="true">PAIR NAME</div>
-
-​
-
-        <!-- 데코 블록 -->
-
-        <div class="deco-block-left">
-
-            <div class="deco-item-left" style="background: var(--accent-color, #000);"></div>
-
-            <div class="deco-item-left" style="background: var(--accent-color, #000);"></div>
-
-            <div class="deco-item-left" style="background: var(--accent-color, #000);"></div>
-
-        </div>
-
-        <div id="deco-left-1" class="deco-item-left" style="position:absolute; left:55px; top:310px; width:45px; height:22px; background:var(--accent-color, #000);"></div>
-
-        <div id="deco-left-2" class="deco-item-left" style="position:absolute; left:55px; top:340px; width:45px; height:22px; background:var(--accent-color, #000);"></div>
-
-        <div id="deco-left-3" class="deco-item-left" style="position:absolute; left:55px; top:370px; width:45px; height:22px; background:var(--accent-color, #000);"></div>
+        <div class="pair-header" contenteditable="true">PAIR NAME</div>
 
 ​
 
-        <div id="deco-right-1" class="deco-item-right" style="position:absolute; right:55px; top:780px; width:45px; height:22px; background:var(--accent-color, #000);"></div>
+        <!-- 메인 캐릭터 1 (상단 좌측) -->
 
-        <div id="deco-right-2" class="deco-item-right" style="position:absolute; right:55px; top:810px; width:45px; height:22px; background:var(--accent-color, #000);"></div>
-
-        <div id="deco-right-3" class="deco-item-right" style="position:absolute; right:55px; top:840px; width:45px; height:22px; background:var(--accent-color, #000);"></div>
+        <div class="main-char-box" id="char-box-1" data-id="main1"></div>
 
 ​
 
-        <!-- 캐릭터 큰 박스 1 (좌상단) -->
+        <!-- 상단 서브 박스 3개 -->
 
-        <div class="char-box-large" id="box-char1" data-id="char1">
+        <div class="sub-box-container-top">
 
-            <div class="placeholder-text">클릭하여 이미지 업로드<br>(드래그/휠로 조절)</div>
+            <div class="sub-box" data-id="sub1"></div>
+
+            <div class="sub-box" data-id="sub2"></div>
+
+            <div class="sub-box" data-id="sub3"></div>
 
         </div>
 
 ​
 
-        <!-- 상단 작은 박스 3개 -->
+        <!-- 상단 프로필 (우측) -->
 
-        <div class="top-small-boxes">
+        <div class="profile-area-top">
 
-            <div class="char-box-small" data-id="small1"><div class="placeholder-text" style="font-size:9px;">+</div></div>
+            <div class="name-row">
 
-            <div class="char-box-small" data-id="small2"><div class="placeholder-text" style="font-size:9px;">+</div></div>
+                <span class="name-main" contenteditable="true">이름</span>
 
-            <div class="char-box-small" data-id="small3"><div class="placeholder-text" style="font-size:9px;">+</div></div>
-
-        </div>
-
-​
-
-        <!-- 프로필 1 (우측 상단) -->
-
-        <div class="profile-section-1">
-
-            <div class="name-line" style="border-bottom-color: var(--accent-color, #000);">
-
-                <span contenteditable="true">이름</span> <span class="name-sub" contenteditable="true">NAME</span>
+                <span class="name-sub" contenteditable="true">NAME</span>
 
             </div>
 
-            <div class="catchphrase" contenteditable="true">캐치 프레이즈</div>
+            <div class="catchphrase-box" contenteditable="true">캐치 프레이즈</div>
 
-            <div class="info-grid">
+            <div class="info-list">
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">본 명</div><div class="info-val" contenteditable="true">이름</div></div>
+                <div class="info-item"><div class="info-label">본 명</div><div class="info-value" contenteditable="true">이름</div></div>
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">나 이</div><div class="info-val" contenteditable="true">나이</div></div>
+                <div class="info-item"><div class="info-label">나 이</div><div class="info-value" contenteditable="true">나이</div></div>
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">특 징</div><div class="info-val" contenteditable="true">ARCH는 속성/직책! 그 외 세계관은 직업 등등...</div></div>
+                <div class="info-item"><div class="info-label">특 징</div><div class="info-value" contenteditable="true">ARCH는 속성/직책! 그 외 세계관은 직업 등등...</div></div>
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">소 속</div><div class="info-val" contenteditable="true">소속</div></div>
+                <div class="info-item"><div class="info-label">소 속</div><div class="info-value" contenteditable="true">소속</div></div>
 
             </div>
 
-            <div class="ability-title-area">
+            <div class="ability-section">
 
                 <div class="ability-header">ABILITY</div>
 
-                <div class="ability-box">
+                <div class="ability-name-box">
 
-                    <div class="ability-name" contenteditable="true">능력명 ABILITY NAME</div>
+                    <div class="ability-title" contenteditable="true">능력명 ABILITY NAME</div>
 
-                    <div class="ability-desc-short" contenteditable="true">능력 한 줄로 설명하기. 타 세계관은 캐릭터 한 줄 요약으로 변경</div>
-
-                </div>
-
-                <div class="ability-long-text" contenteditable="true">
-
-                    능력 설명, 능력 관련 에피소드 혹은 캐릭터 설명 등등등<br>줄 띄움 포함 5~6줄이 깔끔합니다<br><br>바람 따라 구름에 띄운 너 흑여 멀리 갈까 맘 졸여요 까치발 들고 잡아본다. 하늘, 바다, 너. 내 사랑은 그저 늘 영원하지 않은 적을 하며 마르지 않을 내 사람에서 자유로히 헤엄쳐 달라고
+                    <div class="ability-sub" contenteditable="true">능력 한 줄로 설명하기. 타 세계관은 캐릭터 한 줄 요약으로 변경</div>
 
                 </div>
 
+                <div class="ability-desc" contenteditable="true">
+
+                    능력 설명, 능력 관련 에피소드 혹은 캐릭터 설명 등등등<br>
+
+                    줄 띄움 포함 5~6줄이 깔끔합니다<br><br>
+
+                    바람 따라 구름에 띄운 너 흑여 멀리 갈까 맘 졸여요 까치발 들고 잡아본다. 하늘, 바다, 너. 내 사랑은 그저 늘 영원하지 않은 적을 하며 마르지 않을 내 사람에서 자유로히 헤엄쳐 달라고
+
+                </div>
+
             </div>
 
         </div>
 
 ​
 
-        <!-- 캐릭터 큰 박스 2 (우측 하단) -->
+        <!-- 메인 캐릭터 2 (하단 우측) -->
 
-        <div class="char-box-large" id="box-char2" data-id="char2">
+        <div class="main-char-box" id="char-box-2" data-id="main2"></div>
 
-            <div class="placeholder-text">클릭하여 이미지 업로드<br>(드래그/휠로 조절)</div>
+​
+
+        <!-- 좌측 세로 바 3개 -->
+
+        <div class="bar-group-left">
+
+            <div class="deco-bar"></div>
+
+            <div class="deco-bar"></div>
+
+            <div class="deco-bar"></div>
 
         </div>
 
 ​
 
-        <!-- 하단 작은 박스 3개 -->
+        <!-- 하단 서브 박스 3개 -->
 
-        <div class="bottom-small-boxes">
+        <div class="sub-box-container-bottom">
 
-            <div class="char-box-small" data-id="small4"><div class="placeholder-text" style="font-size:9px;">+</div></div>
+            <div class="sub-box" data-id="sub4"></div>
 
-            <div class="char-box-small" data-id="small5"><div class="placeholder-text" style="font-size:9px;">+</div></div>
+            <div class="sub-box" data-id="sub5"></div>
 
-            <div class="char-box-small" data-id="small6"><div class="placeholder-text" style="font-size:9px;">+</div></div>
+            <div class="sub-box" data-id="sub6"></div>
 
         </div>
 
 ​
 
-        <!-- 프로필 2 (좌측 하단) -->
+        <!-- 우측 세로 바 3개 -->
 
-        <div class="profile-section-2">
+        <div class="bar-group-right">
 
-            <div class="name-line" style="border-bottom-color: var(--accent-color, #000);">
+            <div class="deco-bar"></div>
 
-                <span contenteditable="true">이름</span> <span class="name-sub" contenteditable="true">NAME</span>
+            <div class="deco-bar"></div>
+
+            <div class="deco-bar"></div>
+
+        </div>
+
+​
+
+        <!-- 하단 프로필 (좌측) -->
+
+        <div class="profile-area-bottom">
+
+            <div class="name-row">
+
+                <span class="name-main" contenteditable="true">이름</span>
+
+                <span class="name-sub" contenteditable="true">NAME</span>
 
             </div>
 
-            <div class="catchphrase" contenteditable="true">캐치 프레이즈</div>
+            <div class="catchphrase-box" contenteditable="true">캐치 프레이즈</div>
 
-            <div class="info-grid">
+            <div class="info-list">
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">본 명</div><div class="info-val" contenteditable="true">이름</div></div>
+                <div class="info-item"><div class="info-label">본 명</div><div class="info-value" contenteditable="true">이름</div></div>
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">나 이</div><div class="info-val" contenteditable="true">나이</div></div>
+                <div class="info-item"><div class="info-label">나 이</div><div class="info-value" contenteditable="true">나이</div></div>
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">특 징</div><div class="info-val" contenteditable="true">ARCH는 속성/직책! 그 외 세계관은 직업 등등...</div></div>
+                <div class="info-item"><div class="info-label">특 징</div><div class="info-value" contenteditable="true">ARCH는 속성/직책! 그 외 세계관은 직업 등등...</div></div>
 
-                <div class="info-row"><div class="info-badge" style="background: var(--accent-color, #000);">소 속</div><div class="info-val" contenteditable="true">소속</div></div>
+                <div class="info-item"><div class="info-label">소 속</div><div class="info-value" contenteditable="true">소속</div></div>
 
             </div>
 
-            <div class="ability-title-area">
+            <div class="ability-section">
 
                 <div class="ability-header">ABILITY</div>
 
-                <div class="ability-box">
+                <div class="ability-name-box">
 
-                    <div class="ability-name" contenteditable="true">능력명 ABILITY NAME</div>
+                    <div class="ability-title" contenteditable="true">능력명 ABILITY NAME</div>
 
-                    <div class="ability-desc-short" contenteditable="true">능력 한 줄로 설명하기. 타 세계관은 캐릭터 한 줄 요약으로 변경</div>
+                    <div class="ability-sub" contenteditable="true">능력 한 줄로 설명하기. 타 세계관은 캐릭터 한 줄 요약으로 변경</div>
 
                 </div>
 
-                <div class="ability-long-text" contenteditable="true">
+                <div class="ability-desc" contenteditable="true">
 
-                    능력 설명, 능력 관련 에피소드 혹은 캐릭터 설명 등등등<br>줄 띄움 포함 5~6줄이 깔끔합니다<br><br>사랑은 어느새 하늘 바다 되어 세상을 삼켜 한눈엔 볼 수 없고 이리저리 갈피를 못 잡는 그 영원에 또 살아요 그렇게 사랑은 내 하늘 바다 되어 한 줄에 그 한번에 세상을 삼켜 이대로 무너져도 망설임없을 영원에
+                    능력 설명, 능력 관련 에피소드 혹은 캐릭터 설명 등등등<br>
+
+                    줄 띄움 포함 5~6줄이 깔끔합니다<br><br>
+
+                    사랑은 어느새 하늘 바다 되어 세상을 삼켜 한눈엔 볼 수 없고 이리저리 갈피를 못 잡는 그 영원에 또 살아요 그렇게 사랑은 내 하늘 바다 되어 한 줄에 그 한번에 세상을 삼켜 이대로 무너져도 망설임없음을 영원에
 
                 </div>
 
@@ -638,65 +940,83 @@
 
 ​
 
-        <div class="footer-credit">httpicaruscom</div>
+        <div class="footer-text">httpicaruscom</div>
 
     </div>
 
 ​
 
-    <!-- 파일 선택용 공용 인풋 -->
+    <!-- 이미지 첨부 인풋 -->
 
-    <input type="file" id="fileInput" accept="image/*">
+    <input type="file" id="imageUploader" accept="image/*">
 
 ​
 
-    <!-- html2canvas 라이브러리 로드 -->
+    <!-- html2canvas 스크립트 -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
 
-        // 포인트 컬러 변경 연동
+        // 1. 색상 조절 로직 (컬러피커 & HEX 직접 입력 연동)
 
         const colorPicker = document.getElementById('accentColorPicker');
 
-        colorPicker.addEventListener('input', (e) => {
+        const hexInput = document.getElementById('accentHexInput');
 
-            const color = e.target.value;
+        const applyColorBtn = document.getElementById('applyColorBtn');
+
+​
+
+        function updateColor(color) {
 
             document.documentElement.style.setProperty('--accent-color', color);
 
-            document.querySelectorAll('.deco-item-left, .deco-item-right, .info-badge').forEach(el => {
+            colorPicker.value = color;
 
-                el.style.backgroundColor = color;
+            hexInput.value = color;
 
-            });
+        }
 
-            document.querySelectorAll('.name-line').forEach(el => {
+​
 
-                el.style.borderBottomColor = color;
+        colorPicker.addEventListener('input', (e) => updateColor(e.target.value));
 
-            });
+        applyColorBtn.addEventListener('click', () => updateColor(hexInput.value));
+
+​
+
+        // 2. 글꼴 변경 로직
+
+        const fontSelect = document.getElementById('fontSelect');
+
+        fontSelect.addEventListener('change', (e) => {
+
+            const font = e.target.value;
+
+            document.documentElement.style.setProperty('--main-font', font);
+
+            document.getElementById('pair-canvas').style.fontFamily = font;
 
         });
 
 ​
 
-        // 이미지 업로드 및 드래그/줌 관리
+        // 3. 이미지 첨부 및 조절 (드래그/휠)
 
-        let activeTarget = null;
+        let currentTarget = null;
 
-        const fileInput = document.getElementById('fileInput');
+        const uploader = document.getElementById('imageUploader');
 
 ​
 
-        document.querySelectorAll('.char-box-large, .char-box-small').forEach(box => {
+        document.querySelectorAll('.main-char-box, .sub-box').forEach(box => {
 
             box.addEventListener('click', () => {
 
-                activeTarget = box;
+                currentTarget = box;
 
-                fileInput.click();
+                uploader.click();
 
             });
 
@@ -704,135 +1024,119 @@
 
 ​
 
-        fileInput.addEventListener('change', (e) => {
+        uploader.addEventListener('change', (e) => {
 
             const file = e.target.files[0];
 
-            if (!file || !activeTarget) return;
+            if (!file || !currentTarget) return;
 
 ​
 
             const reader = new FileReader();
 
-            reader.onload = function(event) {
+            reader.onload = (evt) => {
 
-                activeTarget.innerHTML = ''; // 기존 내용 지우기
+                currentTarget.innerHTML = '';
 
                 const img = document.createElement('img');
 
-                img.src = event.target.result;
+                img.src = evt.target.result;
 
-                
+​
 
-                let state = { x: 0, y: 0, scale: 1 };
+                let scale = 1;
 
-                
+                let posX = 0;
+
+                let posY = 0;
+
+​
 
                 img.onload = () => {
 
-                    // 박스 크기에 맞춰 초기 스케일 조정
+                    const boxW = currentTarget.clientWidth;
 
-                    const boxW = activeTarget.clientWidth;
-
-                    const boxH = activeTarget.clientHeight;
+                    const boxH = currentTarget.clientHeight;
 
                     const imgW = img.naturalWidth;
 
                     const imgH = img.naturalHeight;
 
-                    
+​
 
-                    let scale = Math.max(boxW / imgW, boxH / imgH);
+                    scale = Math.max(boxW / imgW, boxH / imgH);
 
-                    state.scale = scale;
+                    posX = (boxW - imgW * scale) / 2;
 
-                    state.x = (boxW - imgW * scale) / 2;
+                    posY = (boxH - imgH * scale) / 2;
 
-                    state.y = (boxH - imgH * scale) / 2;
+​
 
-                    
-
-                    updateTransform();
+                    render();
 
                 };
 
 ​
 
-                function updateTransform() {
+                function render() {
 
-                    img.style.width = 'auto';
-
-                    img.style.height = 'auto';
-
-                    img.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+                    img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
 
                 }
 
 ​
 
-                activeTarget.appendChild(img);
+                currentTarget.appendChild(img);
 
 ​
 
-                // 마우스 드래그 이동
-
-                let isDragging = false;
+                let dragging = false;
 
                 let startX, startY;
 
 ​
 
-                activeTarget.onmousedown = (e) => {
+                currentTarget.onmousedown = (event) => {
 
-                    isDragging = true;
+                    event.preventDefault();
 
-                    startX = e.clientX - state.x;
+                    dragging = true;
 
-                    startY = e.clientY - state.y;
+                    startX = event.clientX - posX;
 
-                    e.preventDefault();
-
-                };
-
-​
-
-                window.onmousemove = (e) => {
-
-                    if (!isDragging) return;
-
-                    state.x = e.clientX - startX;
-
-                    state.y = e.clientY - startY;
-
-                    updateTransform();
+                    startY = event.clientY - posY;
 
                 };
 
 ​
 
-                window.onmouseup = () => { isDragging = false; };
+                window.onmousemove = (event) => {
+
+                    if (!dragging) return;
+
+                    posX = event.clientX - startX;
+
+                    posY = event.clientY - startY;
+
+                    render();
+
+                };
 
 ​
 
-                // 마우스 휠 확대/축소
+                window.onmouseup = () => { dragging = false; };
 
-                activeTarget.onwheel = (e) => {
+​
 
-                    e.preventDefault();
+                currentTarget.onwheel = (event) => {
 
-                    const zoomIntensity = 0.1;
+                    event.preventDefault();
 
-                    if (e.deltaY < 0) {
+                    const factor = event.deltaY < 0 ? 1.08 : 0.92;
 
-                        state.scale *= (1 + zoomIntensity);
+                    scale *= factor;
 
-                    } else {
-
-                        state.scale /= (1 + zoomIntensity);
-
-                    }
-
-                    updateTransform();
+                    render();
 
                 };
 
@@ -840,4 +1144,34 @@
 
             reader.readAsDataURL(file);
 
-     
+            uploader.value = '';
+
+        });
+
+​
+
+        // PNG 저장
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+
+            const target = document.getElementById('pair-canvas');
+
+            html2canvas(target, { scale: 2, useCORS: true }).then(canvas => {
+
+                const a = document.createElement('a');
+
+                a.download = 'pair-template.png';
+
+                a.href = canvas.toDataURL();
+
+                a.click();
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
