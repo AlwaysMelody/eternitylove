@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>페어틀 제작기</title>
+
+    <link href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonnu_2308@1.1/Paperlogy-5Medium.woff2" rel="stylesheet" type="text/css">
+
+    <style>
+
+        * {
+
+            box-sizing: border-box;
+
+            font-family: 'Paperlogy', sans-serif;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+​
+
+        body {
+
+            background-color: #1e1e1e;
+
+            color: #ffffff;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            padding: 20px;
+
+        }
+
+​
+
+        /* 컨트롤 영역 */
+
+        .control-panel {
+
+            background: #2b2b2b;
+
+            padding: 12px 24px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            gap: 20px;
+
+            align-items: center;
+
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+        }
+
+​
+
+        .control-panel label {
+
+            font-size: 14px;
+
+            color: #ddd;
+
+        }
+
+​
+
+        .control-panel input[type="color"] {
+
+            border: none;
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 4px;
+
+            cursor: pointer;
+
+            background: none;
+
+        }
+
+​
+
+        .btn-save {
+
+            background: #ffffff;
+
+            color: #000000;
+
+            border: none;
+
+            padding: 8px 16px;
+
+            border-radius: 4px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+        }
+
+​
+
+        /* 페어틀 캔버스 원본 규격 (750px * 1050px) */
+
+        #pair-canvas {
+
+            width: 750px;
+
+            height: 1050px;
+
+            background-color: #ffffff;
+
+            color: #000000;
+
+            position: relative;
+
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+
+            overflow: hidden;
+
+            flex-shrink: 0;
+
+        }
+
+​
+
+        /* PAIR NAME 헤더 */
+
+        .pair-header {
+
+            position: absolute;
+
+            top: 20px;
+
+            left: 25px;
+
+            font-size: 46px;
+
+            font-weight: 900;
+
+            letter-spacing: -1px;
+
+            line-height: 1;
+
+        }
+
+​
+
+        /* 메인 캐릭터 대형 박스 */
+
+        .main-char-box {
+
+            position: absolute;
+
+            background-color: #000000;
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+        }
+
+​
+
+        #char-box-1 {
+
+            top: 75px;
+
+            left: 105px;
+
+            width: 250px;
+
+            height: 440px;
+
+        }
+
+​
+
+        #char-box-2 {
+
+            top: 545px;
+
+            left: 395px;
+
+            width: 250px;
+
+            height: 440px;
+
+        }
+
+​
+
+        .main-char-box img, .sub-box img {
+
+            position: absolute;
+
+            user-select: none;
+
+            pointer-events: none;
+
+        }
+
+​
+
+        /* 세로 검은 바 3개 데코 */
+
+        .bar-group-left {
+
+            position: absolute;
+
+            top: 885px;
+
+            left: 25px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+​
+
+        .bar-group-right {
+
+            position: absolute;
+
+            top: 830px;
+
+            left: 645px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+​
+
+        .deco-bar {
+
+            width: 105px;
+
+            height: 42px;
+
+            background-color: #000000;
+
+        }
+
+​
+
+        /* 서브 3개 네모 박스 */
+
+        .sub-box-container-top {
+
+            position: absolute;
+
+            top: 65px;
+
+            left: 395px;
+
+            display: flex;
+
+            gap: 12px;
+
+        }
+
+​
+
+        .sub-box-container-bottom {
+
+            position: absolute;
+
+            top: 905px;
+
+            left: 105px;
+
+            display: flex;
+
+            gap: 12px;
+
+        }
+
+​
+
+        .sub-box {
+
+            width: 75px;
+
+            height: 75px;
+
+            background-color: #000000;
+
+            position: relative;
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+        }
+
+​
+
+        /* 프로필 영역 */
+
+        .profile-area-top {
+
+            position: absolute;
+
+            top: 155px;
+
+            left: 395px;
+
+            width: 320px;
+
+        }
+
+​
+
+        .profile-area-bottom {
+
+            position: absolute;
+
+            top: 545px;
+
+            left: 25px;
+
+            width: 320px;
+
+        }
+
+​
+
+        .name-row {
+
+            border-bottom: 2px solid #000000;
+
+            padding-bottom: 2px;
+
+            display: flex;
+
+            align-items: baseline;
+
+            gap: 8px;
+
+        }
+
+​
+
+        .name-main {
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+        }
+
+​
+
+        .name-sub {
+
+            font-size: 14px;
+
+            font-style: italic;
+
+            color: #888888;
+
+            font-weight: 500;
+
+        }
+
+​
+
+        .catchphrase-box {
+
+            background: #d8d8d8;
+
+            padding: 3px 8px;
+
+            font-size: 11px;
+
+            margin-top: 6px;
+
+            border-radius: 2px;
+
+            color: #111;
+
+        }
+
+​
+
+        .info-list {
+
+            margin-top: 8px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+
+        }
+
+​
+
+        .info-item {
+
+            display: flex;
+
+            align-items: center;
+
+            font-size: 11px;
+
+        }
+
+​
+
+        .info-label {
+
+            background-color: #000000;
+
+            color: #ffffff;
+
+            padding: 2px 0;
+
+            width: 42px;
+
+            text-align: center;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            margin-right: 8px;
+
+            border-radius: 2px;
+
+            flex-shrink: 0;
+
+        }
+
+​
+
+        .info-value {
+
+            color: #333333;
+
+            font-size: 11px;
+
+            width: 100%;
+
+        }
+
+​
+
+        .ability-section {
+
+            margin-top: 14px;
+
+            text-align: right;
+
+        }
+
+​
+
+        .ability-header {
+
+            font-size: 20px;
+
+            font-weight: 900;
+
+            font-style: italic;
+
+            letter-spacing: 0.5px;
+
+            margin-bottom: 4px;
+
+        }
+
+​
+
+        .ability-name-box {
+
+            background-color: #e2e2e2;
+
+            padding: 5px 8px;
+
+            text-align: left;
+
+        }
+
+​
+
+        .ability-title {
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+        }
+
+​
+
+        .ability-sub {
+
+            font-size: 9px;
+
+            color: #555;
+
+            margin-top: 1px;
+
+        }
+
+​
+
+        .ability-desc {
+
+            margin-top: 8px;
+
+            font-size: 10px;
+
+            line-height: 1.45;
+
+            color: #222;
+
+            text-align: left;
+
+        }
+
+​
+
+        /* 푸터 크레딧 */
+
+        .footer-text {
+
+            position: absolute;
+
+            bottom: 8px;
+
+            left: 15px;
+
+            font-size: 10px;
+
+            color: #000000;
+
+            font-weight: bold;
+
+        }
+
+​
+
+        /* 텍스트 편집 가이드 처리 */
+
+        [contenteditable="true"] {
+
+            outline: none;
+
+        }
+
+        [contenteditable="true"]:hover {
+
+            background-color: rgba(0, 0, 0, 0.05);
+
+        }
+
+​
+
+        /* 업로드 인풋 비활성화 */
+
+        input[type="file"] {
+
+            display: none;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+​
+
+    <div class="control-panel">
+
+        <label>포인트 색상:</label>
+
+        <input type="color" id="accentColor" value="#000000">
+
+        <button class="btn-save" id="saveBtn">이미지 저장 (PNG)</button>
+
+    </div>
+
+​
+
+    <!-- 페어틀 캔버스 -->
+
+    <div id="pair-canvas">
+
+        <div class="pair-header" contenteditable="true">PAIR NAME</div>
+
+​
+
+        <!-- 캐릭터 1 (상단) -->
+
+        <div class="main-char-box" id="char-box-1" data-id="main1"></div>
+
+​
+
+        <!-- 상단 서브 박스 3개 -->
+
+        <div class="sub-box-container-top">
+
+            <div class="sub-box" data-id="sub1"></div>
+
+            <div class="sub-box" data-id="sub2"></div>
+
+            <div class="sub-box" data-id="sub3"></div>
+
+        </div>
+
+​
+
+        <!-- 상단 프로필 -->
+
+        <div class="profile-area-top">
+
+            <div class="name-row" class="accent-border">
+
+                <span class="name-main" contenteditable="true">이름</span>
+
+                <span class="name-sub" contenteditable="true">NAME</span>
+
+            </div>
+
+            <div class="catchphrase-box" contenteditable="true">캐치 프레이즈</div>
+
+            <div class="info-list">
+
+                <div class="info-item"><div class="info-label accent-bg">본 명</div><div class="info-value" contenteditable="true">이름</div></div>
+
+                <div class="info-item"><div class="info-label accent-bg">나 이</div><div class="info-value" contenteditable="true">나이</div></div>
+
+                <div class="info-item"><div class="info-label accent-bg">특 징</div><div class="info-value" contenteditable="true">ARCH는 속성/직책! 그 외 세계관은 직업 등등...</div></div>
+
+                <div class="info-item"><div class="info-label accent-bg">소 속</div><div class="info-value" contenteditable="true">소속</div></div>
+
+            </div>
+
+            <div class="ability-section">
+
+                <div class="ability-header">ABILITY</div>
+
+                <div class="ability-name-box">
+
+                    <div class="ability-title" contenteditable="true">능력명 ABILITY NAME</div>
+
+                    <div class="ability-sub" contenteditable="true">능력 한 줄로 설명하기. 타 세계관은 캐릭터 한 줄 요약으로 변경</div>
+
+                </div>
+
+                <div class="ability-desc" contenteditable="true">
+
+                    능력 설명, 능력 관련 에피소드 혹은 캐릭터 설명 등등등<br>
+
+                    줄 띄움 포함 5~6줄이 깔끔합니다<br><br>
+
+                    바람 따라 구름에 띄운 너 흑여 멀리 갈까 맘 졸여요 까치발 들고 잡아본다. 하늘, 바다, 너. 내 사랑은 그저 늘 영원하지 않은 적을 하며 마르지 않을 내 사람에서 자유로히 헤엄쳐 달라고
+
+                </div>
+
+            </div>
+
+        </div>
+
+​
+
+        <!-- 캐릭터 2 (하단) -->
+
+        <div class="main-char-box" id="char-box-2" data-id="main2"></div>
+
+​
+
+        <!-- 하단 세로 바 3개 (좌측) -->
+
+        <div class="bar-group-left">
+
+            <div class="deco-bar accent-bg"></div>
+
+            <div class="deco-bar accent-bg"></div>
+
+            <div class="deco-bar accent-bg"></div>
+
+        </div>
+
+​
+
+        <!-- 하단 서브 박스 3개 -->
+
+        <div class="sub-box-container-bottom">
+
+            <div class="sub-box" data-id="sub4"></div>
+
+            <div class="sub-box" data-id="sub5"></div>
+
+            <div class="sub-box" data-id="sub6"></div>
+
+        </div>
+
+​
+
+        <!-- 하단 세로 바 3개 (우측) -->
+
+        <div class="bar-group-right">
+
+            <div class="deco-bar accent-bg"></div>
+
+            <div class="deco-bar accent-bg"></div>
+
+            <div class="deco-bar accent-bg"></div>
+
+        </div>
+
+​
+
+        <!-- 하단 프로필 -->
+
+        <div class="profile-area-bottom">
+
+            <div class="name-row" class="accent-border">
+
+                <span class="name-main" contenteditable="true">이름</span>
+
+                <span class="name-sub" contenteditable="true">NAME</span>
+
+            </div>
+
+            <div class="catchphrase-box" contenteditable="true">캐치 프레이즈</div>
+
+            <div class="info-list">
+
+                <div class="info-item"><div class="info-label accent-bg">본 명</div><div class="info-value" contenteditable="true">이름</div></div>
+
+                <div class="info-item"><div class="info-label accent-bg">나 이</div><div class="info-value" contenteditable="true">나이</div></div>
+
+                <div class="info-item"><div class="info-label accent-bg">특 징</div><div class="info-value" contenteditable="true">ARCH는 속성/직책! 그 외 세계관은 직업 등등...</div></div>
+
+                <div class="info-item"><div class="info-label accent-bg">소 속</div><div class="info-value" contenteditable="true">소속</div></div>
+
+            </div>
+
+            <div class="ability-section">
+
+                <div class="ability-header">ABILITY</div>
+
+                <div class="ability-name-box">
+
+                    <div class="ability-title" contenteditable="true">능력명 ABILITY NAME</div>
+
+                    <div class="ability-sub" contenteditable="true">능력 한 줄로 설명하기. 타 세계관은 캐릭터 한 줄 요약으로 변경</div>
+
+                </div>
+
+                <div class="ability-desc" contenteditable="true">
+
+                    능력 설명, 능력 관련 에피소드 혹은 캐릭터 설명 등등등<br>
+
+                    줄 띄움 포함 5~6줄이 깔끔합니다<br><br>
+
+                    사랑은 어느새 하늘 바다 되어 세상을 삼켜 한눈엔 볼 수 없고 이리저리 갈피를 못 잡는 그 영원에 또 살아요 그렇게 사랑은 내 하늘 바다 되어 한 줄에 그 한번에 세상을 삼켜 이대로 무너져도 망설임없음을 영원에
+
+                </div>
+
+            </div>
+
+        </div>
+
+​
+
+        <div class="footer-text">httpicaruscom</div>
+
+    </div>
+
+​
+
+    <input type="file" id="imageUploader" accept="image/*">
+
+​
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+
+        // 색상 조절 로직
+
+        const colorInput = document.getElementById('accentColor');
+
+        colorInput.addEventListener('input', (e) => {
+
+            const color = e.target.value;
+
+            document.querySelectorAll('.accent-bg').forEach(el => el.style.backgroundColor = color);
+
+            document.querySelectorAll('.name-row').forEach(el => el.style.borderBottomColor = color);
+
+        });
+
+​
+
+        // 이미지 업로드 및 이동/확대 제어
+
+        let currentTarget = null;
+
+        const uploader = document.getElementById('imageUploader');
+
+​
+
+        document.querySelectorAll('.main-char-box, .sub-box').forEach(box => {
+
+            box.addEventListener('click', (e) => {
+
+                currentTarget = box;
+
+                uploader.click();
+
+            });
+
+        });
+
+​
+
+        uploader.addEventListener('change', (e) => {
+
+            const file = e.target.files[0];
+
+            if (!file || !currentTarget) return;
+
+​
+
+            const reader = new FileReader();
+
+            reader.onload = (evt) => {
+
+                currentTarget.innerHTML = '';
+
+                const img = document.createElement('img');
+
+                img.src = evt.target.result;
+
+​
+
+                let scale = 1;
+
+                let posX = 0;
+
+                let posY = 0;
+
+​
+
+                img.onload = () => {
+
+                    const boxW = currentTarget.clientWidth;
+
+                    const boxH = currentTarget.clientHeight;
+
+                    const imgW = img.naturalWidth;
+
+                    const imgH = img.naturalHeight;
+
+​
+
+                    scale = Math.max(boxW / imgW, boxH / imgH);
+
+                    posX = (boxW - imgW * scale) / 2;
+
+                    posY = (boxH - imgH * scale) / 2;
+
+​
+
+                    render();
+
+                };
+
+​
+
+                function render() {
+
+                    img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+
+                }
+
+​
+
+                currentTarget.appendChild(img);
+
+​
+
+                let dragging = false;
+
+                let startX, startY;
+
+​
+
+                currentTarget.onmousedown = (event) => {
+
+                    event.preventDefault();
+
+                    dragging = true;
+
+                    startX = event.clientX - posX;
+
+                    startY = event.clientY - posY;
+
+                };
+
+​
+
+                window.onmousemove = (event) => {
+
+                    if (!dragging) return;
+
+                    posX = event.clientX - startX;
+
+                    posY = event.clientY - startY;
+
+                    render();
+
+                };
+
+​
+
+                window.onmouseup = () => { dragging = false; };
+
+​
+
+                currentTarget.onwheel = (event) => {
+
+                    event.preventDefault();
+
+                    const factor = event.deltaY < 0 ? 1.08 : 0.92;
+
+                    scale *= factor;
+
+                    render();
+
+                };
+
+            };
+
+            reader.readAsDataURL(file);
+
+            uploader.value = '';
+
+        });
+
+​
+
+        // PNG 저장 기능
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+
+            const target = document.getElementById('pair-canvas');
+
+            html2canvas(target, { scale: 2, useCORS: true }).then(canvas => {
+
+                const a = document.createElement('a');
+
+                a.download = 'pair-template.png';
+
+                a.href = canvas.toDataURL();
+
+                a.click();
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
