@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ETERNITY LOVE · 페어틀 제작기</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css');
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;700;900&display=swap');
+:root{--pink:#f5c5c7;--red:#ef3828;--headline:#f5c5c7;--ink:#111;--gray:#e7e7e7}
+*{box-sizing:border-box}body{margin:0;background:#f4f4f4;color:var(--ink);font-family:var(--user-font,Arial),"Noto Sans KR",sans-serif}
+header{padding:22px 16px;text-align:center;background:#fff;border-bottom:1px solid #ddd}
+header h1{margin:0 0 6px;font-size:25px}header p{margin:0;color:#666;font-size:13px}
+.app{display:grid;grid-template-columns:minmax(280px,340px) minmax(0,1fr);gap:28px;width:calc(100% - 64px);max-width:1180px;margin:32px auto;padding:0;align-items:start}
+.panel{background:white;border-radius:12px;padding:18px;box-shadow:0 2px 12px #0000000c}
+.panel h2{font-size:21px;margin:0 0 16px}.field{display:grid;gap:7px;margin-bottom:16px}.field label{font-size:16px;font-weight:700;color:#333}
+input,textarea,select{width:100%;font:inherit;font-size:17px;padding:12px;border:1px solid #ddd;border-radius:7px;background:#fff}
+textarea{resize:vertical;min-height:100px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.colorrow{display:flex;align-items:center;gap:12px;margin:10px 0 16px;font-size:16px}.colorrow input{width:44px;height:34px;padding:2px}
+button{border:0;border-radius:8px;padding:12px 14px;font-weight:700;cursor:pointer}.primary{background:var(--red);color:white;width:100%;margin-top:5px}.secondary{background:#eee;color:#222;width:100%;margin-top:8px}
+.preview-wrap{min-width:0}.preview-label{font-size:16px;color:#666;margin:0 0 8px}
+#poster{width:100%;aspect-ratio:1438/2048;background:#fff;position:relative;overflow:hidden;box-shadow:0 5px 22px #0002;font-family:var(--user-font,Arial),"Noto Sans KR",sans-serif;container-type:inline-size}
+/* 모든 배치는 원본 포스터(1024×1458) 기준 좌표의 비율로 고정 */
+.topbar{position:absolute;left:0;top:0;width:100%;height:4.65%;background:linear-gradient(90deg,var(--headline) 0%,#fff 100%);display:flex;align-items:flex-end;padding:0 .45% .15%;overflow:visible;z-index:5}
+.poster-title{position:relative;top:1.2cqw;left:-.8cqw;font-size:5.7cqw;line-height:1;font-weight:900;color:white;white-space:nowrap;letter-spacing:-.12cqw;margin:0;text-shadow:none}
+.content{position:absolute;inset:0}
+.photo-frame{position:absolute;width:33.24%;height:41.796875%;background:#eee;box-shadow:5px 8px 10px rgba(0,0,0,.44);border:1px solid #eee;z-index:1;box-sizing:border-box;overflow:hidden}
+.photo-frame.one{left:13.7%;top:7.25%;box-shadow:-5px 8px 10px rgba(0,0,0,.44)}.photo-frame.two{left:53%;top:52.1%;width:33.24%;height:41.796875%}
+.photo-frame img{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 50%;max-width:none;flex:none;transform-origin:50% 50%}
+.card-placeholder{position:absolute;width:33.24%;height:41.796875%;display:flex;align-items:center;justify-content:center;background:#eee;color:#999;font-size:1.25cqw;text-align:center;padding:10px;z-index:1;box-shadow:5px 8px 10px #0007;box-sizing:border-box}
+.card-placeholder.one{left:13.7%;top:7.25%;box-shadow:-5px 8px 10px #0007}.card-placeholder.two{left:53%;top:52.1%;width:33.24%;height:41.796875%}
+.info{position:absolute;width:43.5%;font-size:1.55cqw;line-height:1.28;overflow-wrap:anywhere;z-index:2}
+.info.top{left:51.6%;right:auto;top:17.1%;bottom:auto}.info.bottom{left:5.3%;right:auto;top:53.9%;bottom:auto;width:43.8%}
+.name{font-size:2.45cqw;line-height:1.12;font-weight:900;font-style:italic;border-bottom:2px solid var(--pink);padding-bottom:.35%;margin-bottom:.55%}
+.name-ko{font-size:1em;color:#111}.name-en{font-size:.55em;font-weight:400;color:#777}.name-separator{font-size:.55em;font-weight:400;color:#777}
+.tagline{background:linear-gradient(90deg,var(--pink),#fff);border-radius:7px;padding:.55% 1.4%;margin-bottom:1.4%;font-size:.95em}
+.profile{display:grid;grid-template-columns:13.5% minmax(0,1fr);gap:.45cqw .8cqw;align-items:center;margin-bottom:1.5%}
+.label{background:var(--pink);color:white;text-align:center;font-weight:700;border-radius:5px;padding:5px 3px;font-size:1.05em;box-sizing:border-box;width:100%;min-height:2.15em;display:flex;align-items:center;justify-content:center}
+.ability{text-align:right;font-size:2.25cqw;font-style:italic;font-weight:900;margin:.3% 0 1.1%}
+.abilitybox{background:var(--gray);border-radius:5px;padding:1.5%;margin-bottom:1.5%}
+.abilitybox strong{font-size:1.05em}.abilitybox span{font-size:.85em}
+.desc{white-space:pre-line;margin:0;font-size:1em;line-height:1.38;overflow-wrap:anywhere}
+.info.bottom .desc{font-size:.94em;line-height:1.32;overflow-wrap:anywhere}
+.info.bottom .abilitybox{padding:1.5%;margin-bottom:1.4%}
+.info.bottom .profile{grid-template-columns:13.5% minmax(0,1fr);gap:.45cqw .8cqw}
+/* 상단/하단 프로필 라벨 크기를 동일하게 */
+.info.top .profile,.info.bottom .profile{grid-template-columns:13.5% minmax(0,1fr);gap:.45cqw .8cqw;align-items:center;margin-bottom:1.5%;font-size:1em}
+.info.top .label,.info.bottom .label{width:100%;min-height:2.15em;box-sizing:border-box;padding:5px 3px;font-size:1.05em}
+.info.bottom .name,.info.bottom .tagline,.info.bottom .profile,.info.bottom .abilitybox,.info.bottom .desc{max-width:100%}
+.swatches{position:absolute;top:6.1%;left:51.7%;display:flex;gap:1.8%;width:43.4%;height:9.4%;z-index:1}
+.swatch{flex:1;min-width:0;background:var(--pink);overflow:hidden}.swatch img{width:100%;height:100%;object-fit:cover}
+.swatch:first-child{background:var(--pink)}
+.side-tags{position:absolute;left:5.5%;top:34.5%;display:grid;row-gap:1.8cqw;width:13.5%;z-index:3}
+.side-tags span{background:var(--pink);color:white;font-weight:800;padding:5.5% 3%;font-size:1.8cqw;box-shadow:2px 3px 5px #0001;box-sizing:border-box}
+.side-tags span:nth-child(2){transform:translateX(-7%);width:93%}.side-tags span:nth-child(3){transform:translateX(-14%);width:86%}
+.side-tags.right{left:82%;right:auto;top:79.2%;width:13.5%;text-align:right;z-index:3}
+.side-tags.right{row-gap:1.8cqw;text-align:right}.side-tags.right span{background:var(--red);justify-self:start;margin:0;padding:5.5% 3%;font-size:1.8cqw;box-sizing:border-box;transform:none}.side-tags.right span:nth-child(1){width:86%;transform:translateX(0)}.side-tags.right span:nth-child(2){width:93%;transform:translateX(3.5%)}.side-tags.right span:nth-child(3){width:100%;transform:translateX(7%)}
+.bottom-images{position:absolute;left:5%;top:86.8%;width:43.4%;height:9.4%;display:block;z-index:1;overflow:visible}
+.bottom-images span{position:absolute;top:0;width:30%;height:100%;background:var(--red);overflow:hidden;box-sizing:border-box;border:0;outline:0}
+.bottom-images span:nth-child(1){left:0}
+.bottom-images span:nth-child(2){left:35%;border:0;background:#eee}
+.bottom-images span:nth-child(3){left:70%;border:0;background:#eee}
+.bottom-images img{width:100%;height:100%;object-fit:cover}
+.footer{position:absolute;bottom:0;left:0;right:0;height:1.6%;background:linear-gradient(90deg,var(--headline),#fff);color:white;font-size:1cqw;padding-left:.6%;display:flex;align-items:center}
+@media(max-width:800px){
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+  header{padding:18px 14px}
+  header h1{font-size:21px;line-height:1.35}
+  header p{font-size:12px;line-height:1.5}
+  .app{grid-template-columns:minmax(0,1fr);width:calc(100% - 24px);max-width:760px;margin:16px auto;padding:0;gap:14px}
+  .preview-wrap{grid-row:1;min-width:0}
+  .panel{grid-row:2;padding:15px;border-radius:12px}
+  .preview-label{font-size:13px;line-height:1.5}
+  .panel h2{font-size:19px;line-height:1.4}
+  .field{gap:8px;margin-bottom:15px;min-width:0}
+  .field label{font-size:15px;line-height:1.45}
+  input,textarea,select{font-size:16px;min-width:0;padding:12px;min-height:44px}
+  input[type="file"]{font-size:14px;padding:9px 6px;max-width:100%}
+  input[type="color"]{min-height:44px}
+  button{min-height:46px;font-size:15px;touch-action:manipulation}
+  .row{gap:10px}
+  .mobile-save{display:block}
+}
+@media(max-width:480px){
+  .app{width:calc(100% - 18px);margin:10px auto;gap:12px}
+  .panel{padding:12px}
+  .row{grid-template-columns:minmax(0,1fr);gap:0}
+  .colorrow{flex-wrap:wrap}
+  .guide-overlay{padding:12px}
+  .guide-modal{padding:22px 18px;max-height:88dvh}
+  .guide-list{padding:14px 15px;font-size:14px}
+}
+.mobile-save{display:none;position:fixed;z-index:9000;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));width:calc(100% - 24px);box-shadow:0 5px 20px #0003;border-radius:12px;background:#ef3828;color:#fff;padding:14px 18px;font-size:16px;font-weight:800}
+
+/* 시작 전 이용 안내 모달 */
+.guide-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(24,18,20,.68);backdrop-filter:blur(4px)}
+.guide-overlay[hidden]{display:none}
+.guide-modal{width:min(520px,100%);max-height:min(84vh,760px);overflow:auto;background:#fff;border-radius:18px;padding:clamp(22px,5vw,34px);box-shadow:0 18px 70px #0004;color:#222}
+.guide-kicker{text-align:center;font-size:11px;letter-spacing:.22em;color:#b76c82;font-weight:800;margin:0 0 8px}
+.guide-modal h2{text-align:center;font-size:clamp(22px,5vw,28px);margin:0 0 8px}
+.guide-subtitle{text-align:center;color:#888;font-size:13px;margin:0 0 24px}
+.guide-modal h3{font-size:15px;margin:0 0 10px}
+.guide-list{background:#fff7f8;border:1px solid #f3dfe4;border-radius:12px;padding:16px 18px;margin:0 0 18px;line-height:1.8;font-size:14px}.guide-list li+li{margin-top:7px}.guide-list .guide-warning{color:#d71920;font-weight:900}
+.guide-note{font-size:12px;color:#777;line-height:1.65;margin:0 0 18px}
+.guide-start{display:block;width:100%;background:#ef3828;color:#fff;padding:14px 16px;font-size:15px}
+body.guide-locked{overflow:hidden}
+
+</style>
+</head>
+<body class="guide-locked">
+<div class="guide-overlay" id="guideOverlay" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+  <section class="guide-modal">
+    <p class="guide-kicker">PAIR TEMPLATE GUIDE</p>
+    <h2 id="guideTitle">페어틀 이용 안내 ♡</h2>
+    <p class="guide-subtitle">편집을 시작하기 전에 확인해 주세요.</p>
+    <h3>📌 이용 시 주의사항</h3>
+    <ul class="guide-list">
+      <li>원본 디자인을 해치지 않는 선에서 항목, 내용 변경 자유</li>
+      <li class="guide-warning">ARCH 이카로스 페어 사용 금지</li>
+      <li>세계관에 맞게 변경하여 작성 해주세요</li>
+      <li>사이트는 불시에 내려 갈 수도 있습니다.</li>
+      <li class="guide-warning">PC 최적화, 모바일은 불친절할 수도... 있어요.</li>
+    </ul>
+    <button type="button" class="guide-start" id="guideStart">확인하고 편집 시작하기 ♡</button>
+  </section>
+</div>
+
+<header><h1>ETERNITY LOVE · 페어틀 제작기</h1><p>고정된 레이아웃에 사진과 글씨만 바꿔 넣는 템플릿</p></header>
+<main class="app">
+<section class="panel">
+<h2>1. 기본 설정</h2><p style="font-size:14px;line-height:1.6;color:#555;margin:-5px 0 16px">이 제작기는 PC 화면에 최적화되어 있습니다. 모바일에서는 화면 크기에 따라 틀이나 요소의 위치가 어긋나 보일 수 있으니, 정확한 편집과 저장을 위해 PC 사용을 권장합니다. 사진, 프로필 문구, 장식 이미지, 포인트 색상을 변경할 수 있으며, 한글 이름과 영문 이름은 따로 입력하고 색상과 크기도 각각 조절할 수 있습니다. 사진은 원본 비율을 유지해 표시되며, 프레임 안에서 찌그러지지 않습니다.</p>
+<div class="field"><label>상단 제목</label><input data-bind="title" value="PAIR ARCHIVE"></div>
+<div class="field"><label>글꼴 (무료 글꼴은 인터넷 연결 시 불러옵니다)</label><select id="fontChoice"><option value="Arial, sans-serif">기본 산세리프</option><option value="Paperlogy, sans-serif">페이퍼로지</option><option value="'Noto Sans KR', sans-serif">Noto Sans KR</option><option value="'Nanum Gothic', sans-serif">나눔고딕</option><option value="'Gowun Dodum', sans-serif">고운돋움</option><option value="serif">명조체 (기본)</option></select></div>
+<div class="row">
+<div class="field"><label>위쪽 페어 컬러</label><input type="color" id="pink" value="#f5c5c7"><input type="text" id="pinkHex" value="#F5C5C7" aria-label="위쪽 페어 컬러 HEX 코드" maxlength="7" placeholder="#F5C5C7"></div>
+<div class="field"><label>아래쪽 페어 컬러</label><input type="color" id="red" value="#ef3828"><input type="text" id="redHex" value="#EF3828" aria-label="아래쪽 페어 컬러 HEX 코드" maxlength="7" placeholder="#EF3828"></div>
+</div>
+<div class="field"><label>헤드라인 + 맨 아래 줄 컬러</label><input type="color" id="headline" value="#f5c5c7"><input type="text" id="headlineHex" value="#F5C5C7" aria-label="헤드라인과 맨 아래 줄 HEX 코드" maxlength="7" placeholder="#F5C5C7"></div>
+<h2>2. 왼쪽 캐릭터</h2><p style="font-size:14px;color:#555;line-height:1.6">프로필 항목은 ‘항목 이름’과 ‘항목 내용’을 각각 바꿀 수 있어요. 예: 본명 → 직업, 나이 → 생일.</p>
+<div class="field"><label>캐릭터 이미지</label><input type="file" accept="image/*" id="image1"></div>
+<div class="row"><div class="field"><label for="image1X">사진 좌우 위치 <output id="image1XValue">50%</output></label><input type="range" id="image1X" min="0" max="100" value="50"></div><div class="field"><label for="image1Zoom">사진 확대 <output id="image1ZoomValue">100%</output></label><input type="range" id="image1Zoom" min="100" max="300" step="5" value="100"></div></div>
+<div class="row"><div class="field"><label>이름 (한글)</label><input data-bind="nameKo1" value="코드네임 A"></div><div class="field"><label>이름 (영문)</label><input data-bind="nameEn1" value="CODE NAME A"></div></div>
+<div class="row"><div class="field"><label>한글 이름 색상</label><input type="color" id="nameKoColor1" value="#111111"><label>한글 이름 크기 (px)</label><input type="number" id="nameKoSize1" min="8" max="80" value="15"></div><div class="field"><label>영문 이름 색상</label><input type="color" id="nameEnColor1" value="#777777"><label>영문 이름 크기 (px)</label><input type="number" id="nameEnSize1" min="6" max="60" value="8"></div></div>
+<div class="field"><label>한 줄 소개</label><input data-bind="tagline1" value="기록되지 않은 두 사람의 이야기"></div>
+<div class="row"><div class="field"><label>항목 1 이름</label><input data-bind="labelReal1" value="본명"></div><div class="field"><label>항목 1 내용</label><input data-bind="real1" value="본명"></div></div>
+<div class="row"><div class="field"><label>항목 2 이름</label><input data-bind="labelAge1" value="나이"></div><div class="field"><label>항목 2 내용</label><input data-bind="age1" value="미상"></div></div>
+<div class="row"><div class="field"><label>항목 3 이름</label><input data-bind="labelType1" value="분류"></div><div class="field"><label>항목 3 내용</label><input data-bind="type1" value="TYPE-A CLASSIFIED"></div></div>
+<div class="row"><div class="field"><label>항목 4 이름</label><input data-bind="labelGroup1" value="소속"></div><div class="field"><label>항목 4 내용</label><input data-bind="group1" value="ARCHIVE-01"></div></div>
+<div class="field"><label>능력 이름</label><input data-bind="ability1" value="능력명"></div>
+<div class="field"><label>능력 영문명</label><input data-bind="abilityEn1" value="ABILITY NAME"></div>
+<div class="field"><label>능력 설명</label><textarea data-bind="short1">능력이나 특징을 자유롭게 적어 주세요.</textarea></div>
+<div class="field"><label>추가 프로필 설명</label><textarea data-bind="desc1">관찰 기록이나 캐릭터 설정을 자유롭게 작성해 주세요.\n필요한 항목만 남기고 나머지는 원하는 내용으로 수정할 수 있습니다.</textarea></div>
+<div class="row"><div class="field"><label>태그 1</label><input data-bind="tagA1" value="TAG 01"></div><div class="field"><label>태그 2</label><input data-bind="tagB1" value="TAG 02"></div></div>
+<div class="field"><label>태그 3</label><input data-bind="tagC1" value="TAG 03"></div>
+<hr style="border:0;border-top:1px solid #eee;margin:20px 0">
+<h2>3. 오른쪽 캐릭터</h2><p style="font-size:14px;color:#555;line-height:1.6">오른쪽 캐릭터도 각 항목 이름과 내용을 따로 수정할 수 있어요.</p>
+<div class="field"><label>캐릭터 이미지</label><input type="file" accept="image/*" id="image2"></div>
+<div class="row"><div class="field"><label for="image2X">사진 좌우 위치 <output id="image2XValue">50%</output></label><input type="range" id="image2X" min="0" max="100" value="50"></div><div class="field"><label for="image2Zoom">사진 확대 <output id="image2ZoomValue">100%</output></label><input type="range" id="image2Zoom" min="100" max="300" step="5" value="100"></div></div>
+<div class="row"><div class="field"><label>이름 (한글)</label><input data-bind="nameKo2" value="코드네임 B"></div><div class="field"><label>이름 (영문)</label><input data-bind="nameEn2" value="CODE NAME B"></div></div>
+<div class="row"><div class="field"><label>한글 이름 색상</label><input type="color" id="nameKoColor2" value="#111111"><label>한글 이름 크기 (px)</label><input type="number" id="nameKoSize2" min="8" max="80" value="15"></div><div class="field"><label>영문 이름 색상</label><input type="color" id="nameEnColor2" value="#777777"><label>영문 이름 크기 (px)</label><input type="number" id="nameEnSize2" min="6" max="60" value="8"></div></div>
+<div class="field"><label>한 줄 소개</label><input data-bind="tagline2" value="서로 다른 궤도를 걷는 두 사람"></div>
+<div class="row"><div class="field"><label>항목 1 이름</label><input data-bind="labelReal2" value="본명"></div><div class="field"><label>항목 1 내용</label><input data-bind="real2" value="본명"></div></div>
+<div class="row"><div class="field"><label>항목 2 이름</label><input data-bind="labelAge2" value="나이"></div><div class="field"><label>항목 2 내용</label><input data-bind="age2" value="나이 미상"></div></div>
+<div class="row"><div class="field"><label>항목 3 이름</label><input data-bind="labelType2" value="분류"></div><div class="field"><label>항목 3 내용</label><input data-bind="type2" value="TYPE-B CLASSIFIED"></div></div>
+<div class="row"><div class="field"><label>항목 4 이름</label><input data-bind="labelGroup2" value="소속"></div><div class="field"><label>항목 4 내용</label><input data-bind="group2" value="ARCHIVE-02"></div></div>
+<div class="field"><label>능력 이름</label><input data-bind="ability2" value="능력명"></div>
+<div class="field"><label>능력 영문명</label><input data-bind="abilityEn2" value="ABILITY NAME"></div>
+<div class="field"><label>능력 설명</label><textarea data-bind="short2">능력의 효과나 특징을 자유롭게 적어 주세요.</textarea></div>
+<div class="field"><label>추가 프로필 설명</label><textarea data-bind="desc2">성격, 관계성, 과거 기록 등 원하는 설정을 자유롭게 작성해 주세요.\n예시 문구는 자유롭게 지우거나 바꿀 수 있습니다.</textarea></div>
+<div class="row"><div class="field"><label>태그 1</label><input data-bind="tagA2" value="TAG 01"></div><div class="field"><label>태그 2</label><input data-bind="tagB2" value="TAG 02"></div></div>
+<div class="field"><label>태그 3</label><input data-bind="tagC2" value="TAG 03"></div>
+<h2>4. 장식 이미지 (선택)</h2>
+<p style="font-size:14px;line-height:1.6;color:#666;margin:-5px 0 14px">상징물 6칸에 각각 다른 이미지를 넣을 수 있어요. 각 칸의 파일 선택 버튼을 따로 눌러 주세요.</p>
+<div class="field"><label>상단 상징물 1</label><input type="file" accept="image/*" id="deco1"></div>
+<div class="field"><label>상단 상징물 2</label><input type="file" accept="image/*" id="deco2"></div>
+<div class="field"><label>상단 상징물 3</label><input type="file" accept="image/*" id="deco3"></div>
+<div class="field"><label>하단 상징물 1</label><input type="file" accept="image/*" id="deco4"></div>
+<div class="field"><label>하단 상징물 2</label><input type="file" accept="image/*" id="deco5"></div>
+<div class="field"><label>하단 상징물 3</label><input type="file" accept="image/*" id="deco6"></div>
+<button class="primary" id="download">완성 이미지 PNG 저장</button>
+<button class="secondary" id="reset">예시 내용으로 초기화</button>
+</section>
+<section class="preview-wrap">
+<p class="preview-label">미리보기 — 레이아웃은 고정되어 있고, 사진·문구·색상만 바뀝니다.</p>
+<div id="poster">
+<div class="topbar"><div class="poster-title" id="v-title">ETERNITY LOVE</div></div>
+<div class="content">
+<div class="swatches"><div class="swatch"><img id="v-deco1" alt=""></div><div class="swatch"><img id="v-deco2" alt=""></div><div class="swatch"><img id="v-deco3" alt=""></div></div>
+<div class="card-placeholder one" id="ph1">왼쪽 캐릭터 이미지</div><div class="photo-frame one"><img id="v-image1" alt="" hidden></div>
+<div class="card-placeholder two" id="ph2">오른쪽 캐릭터 이미지</div><div class="photo-frame two"><img id="v-image2" alt="" hidden></div>
+<div class="info top">
+<div class="name"><span class="name-ko" id="v-nameKo1">이카로스</span><span class="name-en" id="v-nameEn1">ICARUS</span></div><div class="tagline" id="v-tagline1"></div>
+<div class="profile"><span class="label" id="v-labelReal1">본 명</span><span id="v-real1"></span><span class="label" id="v-labelAge1">나 이</span><span id="v-age1"></span><span class="label" id="v-labelType1">속 성</span><span id="v-type1"></span><span class="label" id="v-labelGroup1">소 속</span><span id="v-group1"></span></div>
+<div class="ability">ABILITY</div><div class="abilitybox"><strong id="v-ability1"></strong> <span id="v-abilityEn1"></span><br><span id="v-short1"></span></div><p class="desc" id="v-desc1"></p>
+</div>
+<div class="info bottom">
+<div class="name" style="border-color:var(--red)"><span class="name-ko" id="v-nameKo2">연옥</span><span class="name-en" id="v-nameEn2">YEONOK</span></div><div class="tagline" style="background:linear-gradient(90deg,var(--red),#fff)" id="v-tagline2"></div>
+<div class="profile"><span class="label" style="background:var(--red)" id="v-labelReal2">본 명</span><span id="v-real2"></span><span class="label" style="background:var(--red)" id="v-labelAge2">나 이</span><span id="v-age2"></span><span class="label" style="background:var(--red)" id="v-labelType2">속 성</span><span id="v-type2"></span><span class="label" style="background:var(--red)" id="v-labelGroup2">소 속</span><span id="v-group2"></span></div>
+<div class="ability">ABILITY</div><div class="abilitybox"><strong id="v-ability2"></strong> <span id="v-abilityEn2"></span><br><span id="v-short2"></span></div><p class="desc" id="v-desc2"></p>
+</div>
+<div class="side-tags"><span id="v-tagA1"></span><span id="v-tagB1"></span><span id="v-tagC1"></span></div>
+<div class="side-tags right"><span id="v-tagA2"></span><span id="v-tagB2"></span><span id="v-tagC2"></span></div>
+<div class="bottom-images"><span><img id="v-deco4" alt=""></span><span><img id="v-deco5" alt=""></span><span><img id="v-deco6" alt=""></span></div>
+</div><div class="footer">httpicaruscom</div>
+</div>
+</section>
+</main>
+<button type="button" class="mobile-save" id="mobileSave">완성 이미지 PNG 저장 ♡</button>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+
+const guideOverlay=document.getElementById('guideOverlay');
+document.getElementById('guideStart').addEventListener('click',()=>{guideOverlay.hidden=true;document.body.classList.remove('guide-locked');});
+
+const defaults = {};
+const fontChoice=document.getElementById('fontChoice');
+fontChoice.addEventListener('change',()=>document.documentElement.style.setProperty('--user-font',fontChoice.value));
+function syncColor(colorId,hexId){const color=document.getElementById(colorId),hex=document.getElementById(hexId);color.addEventListener('input',()=>{hex.value=color.value.toUpperCase();update();});hex.addEventListener('change',()=>{let v=hex.value.trim();if(!v.startsWith('#'))v='#'+v;if(/^#[0-9a-fA-F]{6}$/.test(v)){color.value=v;hex.value=v.toUpperCase();update();}else{hex.value=color.value.toUpperCase();alert('색상 코드는 #RRGGBB 형식으로 입력해 주세요. 예: #F5C5C7');}});}
+syncColor('pink','pinkHex');syncColor('red','redHex');syncColor('headline','headlineHex');
+document.querySelectorAll('[data-bind]').forEach(el=>{defaults[el.dataset.bind]=el.value;});
+function updateNameStyle(n){
+ const koColor=document.getElementById('nameKoColor'+n).value;
+ const enColor=document.getElementById('nameEnColor'+n).value;
+ const koSize=Math.max(8,Math.min(80,Number(document.getElementById('nameKoSize'+n).value)||15));
+ const enSize=Math.max(6,Math.min(60,Number(document.getElementById('nameEnSize'+n).value)||8));
+ const ko=document.getElementById('v-nameKo'+n), en=document.getElementById('v-nameEn'+n);
+ ko.style.color=koColor; ko.style.fontSize=koSize+'px';
+ en.style.color=enColor; en.style.fontSize=enSize+'px';
+}
+[1,2].forEach(n=>['nameKoColor','nameEnColor','nameKoSize','nameEnSize'].forEach(prefix=>document.getElementById(prefix+n).addEventListener('input',()=>updateNameStyle(n))));
+function update(){
+ document.querySelectorAll('[data-bind]').forEach(el=>{const out=document.getElementById('v-'+el.dataset.bind);if(out)out.textContent=el.value.replace(/\\n/g,'\n');});
+ document.documentElement.style.setProperty('--pink',document.getElementById('pink').value);
+ document.documentElement.style.setProperty('--red',document.getElementById('red').value);
+ document.documentElement.style.setProperty('--headline',document.getElementById('headline').value);
+ updateNameStyle(1); updateNameStyle(2);
+}
+document.querySelectorAll('[data-bind]').forEach(el=>el.addEventListener('input',update));
+document.querySelectorAll('#pink,#red,#headline').forEach(el=>el.addEventListener('input',update));
+function attachImage(inputId, imageId, placeholderId){
+ document.getElementById(inputId).addEventListener('change',e=>{
+  const file=e.target.files&&e.target.files[0];if(!file)return;
+  const reader=new FileReader();reader.onload=()=>{const img=document.getElementById(imageId);img.src=reader.result;img.hidden=false;if(placeholderId)document.getElementById(placeholderId).hidden=true;};reader.readAsDataURL(file);
+ });
+}
+attachImage('image1','v-image1','ph1');attachImage('image2','v-image2','ph2');
+// 사진 프레임과 원본 비율은 유지하고, 좌우 위치 및 확대만 조절
+[1,2].forEach(n=>{
+ const x=document.getElementById('image'+n+'X'), zoom=document.getElementById('image'+n+'Zoom');
+ const img=document.getElementById('v-image'+n);
+ const applyPosition=()=>{
+  img.style.objectPosition=x.value+'% 50%';
+  img.style.transformOrigin=x.value+'% 50%';
+  img.style.transform='scale('+Number(zoom.value)/100+')';
+  document.getElementById('image'+n+'XValue').textContent=x.value+'%';
+  document.getElementById('image'+n+'ZoomValue').textContent=zoom.value+'%';
+ };
+ x.addEventListener('input',applyPosition); zoom.addEventListener('input',applyPosition); applyPosition();
+});
+[['deco1','v-deco1'],['deco2','v-deco2'],['deco3','v-deco3'],['deco4','v-deco4'],['deco5','v-deco5'],['deco6','v-deco6']].forEach(([input,img])=>attachImage(input,img,null));
+document.getElementById('mobileSave').addEventListener('click',()=>document.getElementById('download').click());
+document.getElementById('download').addEventListener('click',async()=>{
+ const button=document.getElementById('download');button.disabled=true;button.textContent='이미지 만드는 중...';
+ try{const poster=document.getElementById('poster');const exportScale=1438/poster.getBoundingClientRect().width;const canvas=await html2canvas(poster,{scale:exportScale,backgroundColor:'#ffffff',useCORS:true,onclone:(doc)=>{doc.querySelectorAll('#poster .photo-frame').forEach((el)=>{el.style.setProperty('box-shadow','none','important');el.style.setProperty('overflow','hidden','important');el.style.setProperty('box-sizing','border-box','important');const frame=el.getBoundingClientRect();el.querySelectorAll('img').forEach(img=>{const nw=img.naturalWidth||img.width, nh=img.naturalHeight||img.height; if(!nw||!nh)return; const fit=Math.min(frame.width/nw,frame.height/nh); const zoom=(parseFloat((img.style.transform||'').match(/scale\(([^)]+)\)/)?.[1])||1); const w=nw*fit,h=nh*fit; img.style.setProperty('position','absolute','important');img.style.setProperty('left','50%','important');img.style.setProperty('top','50%','important');img.style.setProperty('width',w+'px','important');img.style.setProperty('height',h+'px','important');img.style.setProperty('max-width','none','important');img.style.setProperty('max-height','none','important');img.style.setProperty('object-fit','fill','important');img.style.setProperty('transform','translate(-50%,-50%) scale('+zoom+')','important');img.style.setProperty('flex','none','important');});});}});
+ // 그림자는 프레임 뒤에 두고, 원래 렌더된 프레임 픽셀을 다시 덮어 그림자가 사진 위로 올라오지 않게 한다.
+ const posterRect=poster.getBoundingClientRect();
+ const frameRects=['.photo-frame.one','.photo-frame.two','.card-placeholder.one','.card-placeholder.two'].map(sel=>{const el=poster.querySelector(sel);if(!el||el.hidden)return null;const r=el.getBoundingClientRect();return {sel,x:(r.left-posterRect.left)*exportScale,y:(r.top-posterRect.top)*exportScale,w:r.width*exportScale,h:r.height*exportScale,ox:(sel.includes('.one')?-5:5)*exportScale};}).filter(Boolean);
+ const composed=document.createElement('canvas');composed.width=canvas.width;composed.height=canvas.height;const c=composed.getContext('2d');c.drawImage(canvas,0,0);
+ frameRects.forEach(f=>{const snap=document.createElement('canvas');snap.width=Math.ceil(f.w);snap.height=Math.ceil(f.h);snap.getContext('2d').drawImage(canvas,f.x,f.y,f.w,f.h,0,0,snap.width,snap.height);c.save();c.shadowColor='rgba(0,0,0,0.55)';c.shadowBlur=10*exportScale;c.shadowOffsetX=f.ox;c.shadowOffsetY=8*exportScale;c.fillStyle='#fff';c.fillRect(f.x,f.y,f.w,f.h);c.restore();c.drawImage(snap,f.x,f.y,f.w,f.h);});
+ // 사진 프레임 그림자가 태그 박스를 덮지 않도록 태그를 원본 렌더에서 마지막에 복원
+ poster.querySelectorAll('.side-tags span').forEach(el=>{const r=el.getBoundingClientRect();const x=(r.left-posterRect.left)*exportScale,y=(r.top-posterRect.top)*exportScale,w=r.width*exportScale,h=r.height*exportScale;if(w>0&&h>0)c.drawImage(canvas,x,y,w,h,x,y,w,h);});
+ const a=document.createElement('a');a.download='pair-template.png';a.href=composed.toDataURL('image/png');a.click();}
+ catch(e){alert('이미지 저장에 실패했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.');}
+ finally{button.disabled=false;button.textContent='완성 이미지 PNG 저장';}
+});
+document.getElementById('reset').addEventListener('click',()=>{
+ document.querySelectorAll('[data-bind]').forEach(el=>el.value=defaults[el.dataset.bind]);
+ ['image1','image2','deco1','deco2','deco3','deco4','deco5','deco6'].forEach(id=>document.getElementById(id).value='');
+ ['image1X','image2X'].forEach(id=>document.getElementById(id).value='50');
+ ['image1Zoom','image2Zoom'].forEach(id=>document.getElementById(id).value='100');
+ [1,2].forEach(n=>{const img=document.getElementById('v-image'+n);img.style.transform='scale(1)';img.style.transformOrigin='50% 50%';document.getElementById('image'+n+'ZoomValue').textContent='100%';});
+ [1,2].forEach(n=>{document.getElementById('v-image'+n).style.objectPosition='50% 50%';document.getElementById('image'+n+'XValue').textContent='50%';document.getElementById('image'+n+'YValue').textContent='50%';});
+ ['v-image1','v-image2','v-deco1','v-deco2','v-deco3','v-deco4','v-deco5','v-deco6'].forEach(id=>{const el=document.getElementById(id);el.src='';if(id==='v-image1'||id==='v-image2')el.hidden=true;});
+ document.getElementById('ph1').hidden=false;document.getElementById('ph2').hidden=false;
+ document.getElementById('pink').value='#f5c5c7';document.getElementById('red').value='#ef3828';document.getElementById('headline').value='#f5c5c7';
+ ['nameKoColor1','nameKoColor2'].forEach(id=>document.getElementById(id).value='#111111');['nameEnColor1','nameEnColor2'].forEach(id=>document.getElementById(id).value='#777777');['nameKoSize1','nameKoSize2'].forEach(id=>document.getElementById(id).value='15');['nameEnSize1','nameEnSize2'].forEach(id=>document.getElementById(id).value='8');document.getElementById('pinkHex').value='#F5C5C7';document.getElementById('redHex').value='#EF3828';document.getElementById('headlineHex').value='#F5C5C7';fontChoice.value='Arial, sans-serif';document.documentElement.style.setProperty('--user-font',fontChoice.value);update();
+});
+update();
+</script>
+</body>
+</html>
